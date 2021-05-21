@@ -4,6 +4,7 @@
 
 #include "common_Socket.h"
 #include <cstring>
+#include <iostream>
 
 Socket::Socket() : fd(-1){
 }
@@ -42,13 +43,15 @@ int Socket::bindAndListen(const char *service) {
         fd = socket(aux->ai_family,
                     aux->ai_socktype,
                     aux->ai_protocol);
-        if ((bind_error = bind(fd, aux->ai_addr, aux->ai_addrlen)) == 0){
-            break;
-        }
+        bind_error = bind(fd, aux->ai_addr, aux->ai_addrlen);
     }
 
     freeaddrinfo(results);
-    if (bind_error || fd < 0) return -1;
+    if (bind_error || (fd < 0)){
+        std::cout << errno;
+        std::cout << "aca\n";
+        return -1;
+    }
 
     if (listen(fd, 1) == -1){
         return -1;
@@ -62,8 +65,7 @@ Socket Socket::accept() {
     /*if (fd < 0){
         // tirar excepcion
     }*/
-    Socket peer = Socket(peerFd);
-    return peer;
+    return Socket(peerFd);
 }
 
 int Socket::connect(const char *host, const char *service) {
@@ -98,7 +100,7 @@ ssize_t Socket::send(const void *buffer, size_t length) {
     ssize_t bytes_send = 0;
     const char *aux = static_cast<const char *>(buffer);
 
-    while (bytes_send < length){
+    while ((size_t) bytes_send < length){
         ssize_t send_ret = ::send(fd, &aux[bytes_send],
                                 length - bytes_send, MSG_NOSIGNAL);
         if (send_ret == -1){
@@ -114,7 +116,7 @@ ssize_t Socket::receive(void *buffer, size_t length) {
     ssize_t bytes_recv = 0;
     char *aux = static_cast<char *>(buffer);
 
-    while (bytes_recv < length){
+    while ((size_t) bytes_recv < length){
         ssize_t recv_ret = recv(fd, &aux[bytes_recv],
                                 length - bytes_recv, 0);
         if (recv_ret == -1 || recv_ret == 0){
@@ -126,8 +128,21 @@ ssize_t Socket::receive(void *buffer, size_t length) {
 }
 
 Socket::~Socket() {
-    if (fd != -1){
+    if (fd > 0){
         shutdown(fd, SHUT_RDWR);
         close(fd);
     }
 }
+
+Socket::Socket(Socket &&other) noexcept
+: fd(other.fd){
+    other.fd = -1;
+}
+
+Socket &Socket::operator=(Socket &&other) noexcept{
+    fd = other.fd;
+    other.fd = -1;
+    return *this;
+}
+
+

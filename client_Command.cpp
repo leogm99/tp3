@@ -51,7 +51,9 @@ void Command::create(std::stringstream& ss) {
     actualCommand.emplace_back(crear);
     std::string game;
     ss >> game;
-    actualCommand.emplace_back(game.size());
+    uint16_t gameSize = game.size();
+    actualCommand.emplace_back((gameSize >> 8) & 0xff);
+    actualCommand.emplace_back((gameSize >> 0) & 0xff);
     std::copy(game.begin(), game.end(), std::back_inserter(actualCommand));
 }
 
@@ -65,7 +67,9 @@ void Command::join(std::stringstream& ss) {
     actualCommand.emplace_back(unirse);
     std::string game;
     ss >> game;
-    actualCommand.emplace_back(game.size());
+    uint16_t gameSize = game.size();
+    actualCommand.emplace_back((gameSize >> 8) & 0xff);
+    actualCommand.emplace_back((gameSize >> 0) & 0xff);
     std::copy(game.begin(), game.end(), std::back_inserter(actualCommand));
 }
 
@@ -96,4 +100,8 @@ Command::Command(Command &&other) noexcept
 Command &Command::operator=(Command &&other) noexcept {
     actualCommand = std::move(other.actualCommand);
     return *this;
+}
+
+std::vector<uint8_t> Command::getCommand() {
+    return this->actualCommand;
 }

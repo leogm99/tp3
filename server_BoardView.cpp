@@ -2,7 +2,7 @@
 // Created by leogm99 on 19/5/21.
 //
 
-#include "BoardView.h"
+#include "server_BoardView.h"
 #include <string>
 #include <utility>
 

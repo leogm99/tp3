@@ -2,7 +2,7 @@
 // Created by leogm99 on 19/5/21.
 //
 
-#include "BoardException.h"
+#include "server_BoardException.h"
 #include <cstdio>
 #include <cstdarg>
 

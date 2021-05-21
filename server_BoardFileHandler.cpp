@@ -2,7 +2,7 @@
 // Created by leogm99 on 19/5/21.
 //
 
-#include "BoardFileHandler.h"
+#include "server_BoardFileHandler.h"
 
 BoardFileHandler::BoardFileHandler(const char *boardFile) :
 boardMapping(std::move(createMap())){

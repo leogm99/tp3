@@ -2,8 +2,8 @@
 // Created by leogm99 on 19/5/21.
 //
 
-#ifndef TP3_BOARDEXCEPTION_H
-#define TP3_BOARDEXCEPTION_H
+#ifndef TP3_SERVER_BOARDEXCEPTION_H
+#define TP3_SERVER_BOARDEXCEPTION_H
 #include <exception>
 #define ERR_LEN 256
 
@@ -17,4 +17,4 @@ public:
 };
 
 
-#endif //TP3_BOARDEXCEPTION_H
+#endif //TP3_SERVER_BOARDEXCEPTION_H

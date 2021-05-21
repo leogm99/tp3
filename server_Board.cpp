@@ -2,8 +2,8 @@
 // Created by leogm99 on 19/5/21.
 //
 
-#include "Board.h"
-#include "BoardException.h"
+#include "server_Board.h"
+#include "server_BoardException.h"
 
 Board::Board(BoardView bv)
 : bv(std::move(bv)), currentSymbol('O') {

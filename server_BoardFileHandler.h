@@ -2,10 +2,10 @@
 // Created by leogm99 on 19/5/21.
 //
 
-#ifndef TP3_BOARDFILEHANDLER_H
-#define TP3_BOARDFILEHANDLER_H
+#ifndef TP3_SERVER_BOARDFILEHANDLER_H
+#define TP3_SERVER_BOARDFILEHANDLER_H
 
-#include "BoardException.h"
+#include "server_BoardException.h"
 #include <string>
 #include <fstream>
 #include <sstream>
@@ -57,4 +57,4 @@ public:
 };
 
 
-#endif //TP3_BOARDFILEHANDLER_H
+#endif //TP3_SERVER_BOARDFILEHANDLER_H

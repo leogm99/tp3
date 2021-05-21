@@ -18,6 +18,13 @@ private:
     explicit Socket(int fd);
 public:
     Socket();
+
+    Socket(const Socket& other) = delete;
+    Socket& operator=(const Socket& other) = delete;
+
+    Socket(Socket&& other) noexcept;
+    Socket& operator=(Socket&& other) noexcept;
+
     int bindAndListen(const char* service);
     Socket accept();
     int connect(const char* host, const char* service);

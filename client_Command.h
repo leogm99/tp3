@@ -34,6 +34,7 @@ private:
     void list();
     void join(std::stringstream& ss);
     void play(std::stringstream& ss);
+
 public:
     Command();
     Command(const Command& other) = delete;
@@ -43,6 +44,7 @@ public:
     Command& operator=(Command&& other) noexcept;
 
     void serializeCommand();
+    std::vector<uint8_t> getCommand();
     ~Command();
 };
 

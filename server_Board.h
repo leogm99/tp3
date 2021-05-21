@@ -2,16 +2,16 @@
 // Created by leogm99 on 19/5/21.
 //
 
-#ifndef TP3_BOARD_H
-#define TP3_BOARD_H
-#include "BoardView.h"
+#ifndef TP3_SERVER_BOARD_H
+#define TP3_SERVER_BOARD_H
+#include "server_BoardView.h"
 #include <array>
 
 class Board {
 private:
+    BoardView bv;
     std::array<char, 9> rawBoard{0};
     char currentSymbol;
-    BoardView bv;
     bool isOccupied(unsigned int col, unsigned int row) const;
     bool isValidMove(unsigned int col, unsigned int row) const;
     void updateSymbol();
@@ -30,4 +30,4 @@ public:
 };
 
 
-#endif //TP3_BOARD_H
+#endif //TP3_SERVER_BOARD_H

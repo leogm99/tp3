@@ -1,4 +1,7 @@
 .idea/
 CMakeLists.txt
 cmake-build-debug/
-main.cpp
+client_main.cpp
+server_main.cpp
+Makefile
+*.o
