@@ -12,8 +12,8 @@ BoardView::BoardView(const BoardFileHandler& fh)
     boardView = std::move(fh.getPlainBoard());
 }
 
-void BoardView::print() {
-    std::cout << boardView;
+const std::string& BoardView::print() {
+    return boardView;
 }
 
 void BoardView::updateAt(unsigned int col, unsigned int row, char symbol) {

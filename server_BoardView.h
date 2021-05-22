@@ -23,7 +23,7 @@ public:
     BoardView& operator=(BoardView&& other) noexcept;
 
     void updateAt(unsigned int col, unsigned int row, char symbol);
-    void print();
+    const std::string& print();
 };
 
 #endif //TP3_SERVER_BOARDVIEW_H

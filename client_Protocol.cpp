@@ -20,8 +20,8 @@ int CliProtocol::send(Socket &socket, const std::vector<unsigned char>& message)
     uint16_t length = 1;
     if (commandBytes == 2){
         length = message.at(1) << 8 | message.at(2);
-        //uint16_t servLength = htons(length);
-        if (socket.send(&length, commandBytes) < commandBytes){
+        uint16_t servLength = htons(length);
+        if (socket.send(&servLength, commandBytes) < commandBytes){
             return -1;
         }
         const unsigned char* data = message.data();
@@ -31,6 +31,7 @@ int CliProtocol::send(Socket &socket, const std::vector<unsigned char>& message)
         }
         return 0;
     }
+
     if (socket.send(&message.at(1), length) < length){
         return -1;
     }
@@ -43,8 +44,8 @@ std::vector<unsigned char> CliProtocol::receive(Socket &socket) {
         return std::vector<unsigned char>(0);
     };
 
+    messageLength = htons(messageLength);
     std::vector<unsigned char> message(messageLength);
-    //messageLength = htons(messageLength);
     if (socket.receive(message.data(), messageLength) < messageLength){
         return message;
     };

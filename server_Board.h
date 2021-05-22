@@ -24,7 +24,7 @@ public:
 
     void placeAt(unsigned int col, unsigned int row);
     char checkWon();
-    void print();
+    const std::string& print();
 
     ~Board();
 };

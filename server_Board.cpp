@@ -81,8 +81,8 @@ char Board::checkWon() {
     return 'E';
 }
 
-void Board::print() {
-    bv.print();
+const std::string& Board::print() {
+    return bv.print();
 }
 
 Board::~Board() {
