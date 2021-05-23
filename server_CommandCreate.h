@@ -5,10 +5,12 @@
 #ifndef TP3_SERVER_COMMANDCREATE_H
 #define TP3_SERVER_COMMANDCREATE_H
 
-class CommandCreate {
+#include "server_CommandHandler.h"
+
+class CommandCreate : public CommandHandler {
 public:
-    //CommandCreate();
-    //void run() override;
+    using CommandHandler::CommandHandler;
+    std::string operator()() override;
 };
 
 

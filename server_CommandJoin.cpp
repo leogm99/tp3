@@ -3,3 +3,7 @@
 //
 
 #include "server_CommandJoin.h"
+
+std::string CommandJoin::operator()() {
+    return std::string();
+}

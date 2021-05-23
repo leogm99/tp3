@@ -20,7 +20,7 @@ std::string ClientMonitor::listGames() {
 GameMonitor &ClientMonitor::accessGame(const std::string &game) {
     std::lock_guard<std::mutex> lockGuard(clientsMutex);
     try {
-        GameMonitor& g = games.at(game);
+        GameMonitor& g = games.at(game).first;
         return g;
     } catch(const std::exception& e){
         throw std::string("Invalid Game");
@@ -31,10 +31,22 @@ void ClientMonitor::createGame(const std::string &gameName) {
     std::lock_guard<std::mutex> lockGuard(clientsMutex);
     auto it = games.find(gameName);
     if (it == games.end()){
-        games[gameName] = std::move(GameMonitor());
+        games[gameName] = std::make_pair(GameMonitor(), true);
         return;
     }
     throw std::string("Game already exists");
+}
+
+void ClientMonitor::joinGame(const std::string &gameName) {
+    std::lock_guard<std::mutex> lockGuard(clientsMutex);
+    auto it = games.find(gameName);
+    if (it == games.end()){
+        throw std::string("Game does not exist");
+    }
+    if (!it->second.second){
+        throw std::string("Game is already full, vuelva prontos");
+    }
+    games[gameName].second = false; // nadie mas se puede unir;
 }
 
 void ClientMonitor::signalGameDone(const std::string &gameName) {

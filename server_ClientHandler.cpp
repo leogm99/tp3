@@ -3,16 +3,17 @@
 //
 
 #include "server_ClientHandler.h"
+#include "server_ClientMonitor.h"
+#include "common_Socket.h"
 
-ClientHandler::ClientHandler(ClientMonitor& aMonitor)
-: monitor(aMonitor){
+ClientHandler::ClientHandler(ClientMonitor& aMonitor, Socket clientSocket)
+: monitor(aMonitor), clientSocket(std::move(clientSocket)) {
     symbol = 'N';
+    game = "";
 }
 
-bool ClientHandler::is(unsigned char aSymbol) {
-    return this->symbol == aSymbol;
+void ClientHandler::run() {
 }
 
 ClientHandler::~ClientHandler() {
 }
-

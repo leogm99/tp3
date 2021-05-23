@@ -13,14 +13,17 @@
 
 class ClientMonitor {
 private:
-    std::map<std::string, GameMonitor> games;
+    std::map<std::string, std::pair<GameMonitor, bool>> games;
     std::mutex clientsMutex;
     BoardFileHandler fh;
 public:
     ClientMonitor();
+
     std::string listGames();
     void createGame(const std::string& gameName);
+    void joinGame(const std::string& gameName);
     GameMonitor& accessGame(const std::string& game);
+
     void signalGameDone(const std::string& gameName);
     ~ClientMonitor();
 };

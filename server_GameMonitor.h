@@ -10,7 +10,6 @@
 #include "server_BoardFileHandler.h"
 #include "server_BoardView.h"
 #include "server_Board.h"
-#include "server_ClientHandler.h"
 
 class GameMonitor {
 private:
@@ -20,7 +19,13 @@ private:
     Board gameBoard;
 public:
     GameMonitor();
-    void play(ClientHandler& cli, unsigned int col, unsigned int row);
+
+    GameMonitor(const GameMonitor& other) = delete;
+    GameMonitor& operator=(const GameMonitor& other) = delete;
+
+    GameMonitor(GameMonitor&& other) noexcept;
+    GameMonitor& operator=(GameMonitor&& other) noexcept;
+    void play(unsigned char clientSymbol, unsigned int col, unsigned int row);
     ~GameMonitor();
 };
 

@@ -72,7 +72,6 @@ char Board::checkWon() {
     //quinto, check tablero lleno
     for (char c : rawBoard){
         if (c == 0) { // no lleno, sigan
-            // actualizo el simbolo al proximo jugador
             return 'N';
         }
     }
@@ -89,6 +88,20 @@ unsigned char Board::getCurrentPlayer() {
 }
 
 Board::~Board() {
+}
+
+Board::Board(Board &&other) noexcept
+: bv(std::move(other.bv)), rawBoard(other.rawBoard){
+    this->currentSymbol = other.currentSymbol;
+    other.currentSymbol = 'N';
+}
+
+Board &Board::operator=(Board &&other) noexcept {
+    bv = std::move(other.bv);
+    rawBoard = other.rawBoard;
+    this->currentSymbol = other.currentSymbol;
+    other.currentSymbol = 'N';
+    return *this;
 }
 
 

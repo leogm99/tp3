@@ -22,6 +22,9 @@ public:
     Board(const Board& other) = delete;
     Board& operator=(const Board& other) = delete;
 
+    Board(Board&& other) noexcept;
+    Board& operator=(Board&& other) noexcept;
+
     void placeAt(unsigned int col, unsigned int row);
     char checkWon();
     const std::string& print();

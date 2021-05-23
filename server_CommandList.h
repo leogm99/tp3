@@ -5,9 +5,12 @@
 #ifndef TP3_SERVER_COMMANDLIST_H
 #define TP3_SERVER_COMMANDLIST_H
 
-class CommandList {
+#include "server_CommandHandler.h"
 
-
+class CommandList : public CommandHandler {
+public:
+    using CommandHandler::CommandHandler;
+    std::string operator()() override;
 };
 
 

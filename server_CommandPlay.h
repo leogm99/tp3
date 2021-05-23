@@ -7,10 +7,12 @@
 
 #include <vector>
 #include "server_Board.h"
+#include "server_CommandHandler.h"
 
-class CommandPlay{
+class CommandPlay : public CommandHandler {
 public:
-    void operator()(const std::vector<unsigned char>& message, Board& board);
+    using CommandHandler::CommandHandler;
+    std::string operator()() override;
 };
 
 

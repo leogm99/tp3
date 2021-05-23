@@ -6,9 +6,12 @@
 #define TP3_SERVER_COMMANDJOIN_H
 
 
-class CommandJoin {
+#include "server_CommandHandler.h"
+
+class CommandJoin : public CommandHandler {
 public:
-    //virtual void run
+    using CommandHandler::CommandHandler;
+    std::string operator()() override;
 };
 
 

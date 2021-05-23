@@ -3,10 +3,12 @@
 //
 
 #include "server_CommandPlay.h"
+#include <iostream>
 
-void CommandPlay::operator()(const std::vector<unsigned char> &message, Board& board) {
-    unsigned char colRow = message.at(1); // el byte de col/fila
+std::string CommandPlay::operator()() {
+    unsigned char colRow = msg.at(1); // el byte de col/fila
     unsigned char col = ((colRow & 0xf0) >> 4) + 1; // esta en los 4 bits mas altos
     unsigned char row = (colRow & 0xf) + 1; // 4 bits mas bajos, sumo 1 pq el protocolo lo manda indexado en 0
-    board.placeAt(col, row);
+    printf("column: %d row: %d", col, row);
+    return std::string();
 }
