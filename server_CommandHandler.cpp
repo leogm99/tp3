@@ -14,18 +14,23 @@ CommandHandler::CommandHandler(std::vector<unsigned char>& message, ClientHandle
 }
 
 
-CommandHandler *CommandHandler::
-getCommand(std::vector<unsigned char>& message, ClientHandler &handler,
-           ClientMonitor &monitor) {
+std::unique_ptr<CommandHandler>
+CommandHandler::getCommand(std::vector<unsigned char>& message,
+                           ClientHandler &handler,
+                           ClientMonitor &monitor) {
     switch (message.at(0)){
         case jugar:
-            return new CommandPlay(message, handler, monitor);
+            return std::unique_ptr<CommandHandler>
+            (new CommandPlay(message, handler, monitor));
         case crear:
-            return new CommandCreate(message, handler, monitor);
+            return std::unique_ptr<CommandHandler>
+            (new CommandCreate(message, handler, monitor));
         case listar:
-            return new CommandList(message, handler, monitor);
+            return std::unique_ptr<CommandHandler>
+            (new CommandList(message, handler, monitor));
         case unirse:
-            return new CommandJoin(message, handler, monitor);
+            return std::unique_ptr<CommandHandler>
+            (new CommandJoin(message, handler, monitor));
     }
     throw std::exception();
 }

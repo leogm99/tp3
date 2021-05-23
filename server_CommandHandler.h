@@ -26,8 +26,11 @@ public:
                    ClientMonitor& monitor);
 
     virtual std::string operator()() = 0;
-    static CommandHandler* getCommand(std::vector<unsigned char>& message, ClientHandler &handler,
-                                      ClientMonitor &monitor);
+
+    static std::unique_ptr<CommandHandler>
+    getCommand(std::vector<unsigned char>& message,
+               ClientHandler &handler,
+               ClientMonitor &monitor);
 
     virtual ~CommandHandler();
 };

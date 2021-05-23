@@ -50,7 +50,6 @@ std::vector<unsigned char> ServProtocol::receive(Socket &socket) {
     }
 
     v.resize(2);
-    std::cout << "hasta aca\n";
     if (socket.receive(v.data() + 1, 1) < 1){
         return std::vector<unsigned char>();
     }

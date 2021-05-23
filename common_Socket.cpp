@@ -43,7 +43,16 @@ int Socket::bindAndListen(const char *service) {
         fd = socket(aux->ai_family,
                     aux->ai_socktype,
                     aux->ai_protocol);
-        bind_error = bind(fd, aux->ai_addr, aux->ai_addrlen);
+        // si el fd es invalido, rip
+        if (fd == -1){
+            freeaddrinfo(results);
+            return -1;
+        }
+        if ((bind_error = bind(fd, aux->ai_addr, aux->ai_addrlen)) == 0){
+            break;
+        }
+        // falla bind, cierro el fd
+        close(fd);
     }
 
     freeaddrinfo(results);
@@ -81,15 +90,18 @@ int Socket::connect(const char *host, const char *service) {
         fd = socket(aux->ai_family,
                           aux->ai_socktype,
                           aux->ai_protocol);
+        if (fd == -1){
+            freeaddrinfo(results);
+            return -1;
+        }
+
         connect_error = ::connect(fd, aux->ai_addr, aux->ai_addrlen);
         if (!connect_error){
             freeaddrinfo(results);
             return 0;
         }
 
-        if (fd != -1){
-            close(fd);
-        }
+        close(fd);
     }
 
     freeaddrinfo(results);
