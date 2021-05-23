@@ -26,7 +26,10 @@ public:
     char checkWon();
     const std::string& print();
 
+    unsigned char getCurrentPlayer();
+
     ~Board();
+
 };
 
 

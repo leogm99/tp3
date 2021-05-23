@@ -37,6 +37,7 @@ void Board::placeAt(unsigned int col, unsigned int row) {
     }
     rawBoard.at(index(col, row)) = currentSymbol;
     bv.updateAt(col, row, currentSymbol);
+    updateSymbol();
 }
 
 char Board::checkWon() {
@@ -72,17 +73,19 @@ char Board::checkWon() {
     for (char c : rawBoard){
         if (c == 0) { // no lleno, sigan
             // actualizo el simbolo al proximo jugador
-            updateSymbol();
             return 'N';
         }
     }
-
     // si llego aca, empataron
     return 'E';
 }
 
 const std::string& Board::print() {
     return bv.print();
+}
+
+unsigned char Board::getCurrentPlayer() {
+    return currentSymbol;
 }
 
 Board::~Board() {
