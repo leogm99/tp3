@@ -25,7 +25,10 @@ public:
 
     GameMonitor(GameMonitor&& other) noexcept;
     GameMonitor& operator=(GameMonitor&& other) noexcept;
-    void play(unsigned char clientSymbol, unsigned int col, unsigned int row);
+
+    const std::string& play(unsigned char clientSymbol, unsigned int col, unsigned int row);
+    const std::string& showBoard(unsigned char clientSymbol);
+
     ~GameMonitor();
 };
 

@@ -27,7 +27,7 @@ public:
                    std::string& gameName,
                    ClientMonitor& monitor);
 
-    virtual std::string operator()() = 0;
+    virtual const std::string& operator()() = 0;
 
     static std::unique_ptr<CommandHandler>
     getCommand(std::vector<unsigned char>& message,

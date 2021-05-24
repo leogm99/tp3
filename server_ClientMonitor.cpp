@@ -5,15 +5,15 @@
 #include "server_ClientMonitor.h"
 
 ClientMonitor::ClientMonitor(){
+    namesList = "Partidas:\n";
 }
 
-std::string ClientMonitor::listGames() {
+const std::string& ClientMonitor::listGames() {
     std::lock_guard<std::mutex> lockGuard(clientsMutex);
-    std::string names("Partidas:\n");
     for (const auto& game : games){
-        names.append(" - " + game.first + "\n");
+        namesList.append(" - " + game.first + "\n");
     }
-    return names;
+    return namesList;
 }
 
 GameMonitor &ClientMonitor::accessGame(const std::string &game) {
@@ -26,12 +26,12 @@ GameMonitor &ClientMonitor::accessGame(const std::string &game) {
     }
 }
 
-void ClientMonitor::createGame(std::string& gameName) {
+const std::string& ClientMonitor::createGame(std::string& gameName) {
     std::lock_guard<std::mutex> lockGuard(clientsMutex);
     auto it = games.find(gameName);
     if (it == games.end()){
         games[gameName] = std::move(std::make_pair(std::move(GameMonitor()), true));
-        return;
+        return games.at(gameName).first.showBoard('O');
     }
     throw std::string("Game already exists");
 }

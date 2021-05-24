@@ -11,7 +11,7 @@
 class CommandJoin : public CommandHandler {
 public:
     using CommandHandler::CommandHandler;
-    std::string operator()() override;
+    const std::string& operator()() override;
 };
 
 

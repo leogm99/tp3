@@ -4,8 +4,12 @@
 
 #include "server_CommandJoin.h"
 
-std::string CommandJoin::operator()() {
-    std::string gameName(msg.begin() + 3, msg.end());
-    monitor.joinGame(gameName);
-    return std::string();
+const std::string& CommandJoin::operator()() {
+    if (!gameName.empty()){
+        throw std::exception();
+    }
+    std::string searchedGame(msg.begin() + 3, msg.end());
+    monitor.joinGame(searchedGame);
+    GameMonitor& game = monitor.accessGame(searchedGame);
+    return game.showBoard(clientSymbol);
 }

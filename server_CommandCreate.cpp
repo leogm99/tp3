@@ -4,7 +4,7 @@
 
 #include "server_CommandCreate.h"
 
-std::string CommandCreate::operator()() {
+const std::string& CommandCreate::operator()() {
     /*try{
         //monitor.createGame(game);
     } catch(const std::exception& e){
@@ -14,7 +14,7 @@ std::string CommandCreate::operator()() {
         throw std::exception();
     }
     gameName.assign(msg.begin() + 3, msg.end());
-    monitor.createGame(gameName);
+    const std::string& board = monitor.createGame(gameName);
     clientSymbol = 'O';
-    return std::string();
+    return board;
 }
