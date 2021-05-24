@@ -5,5 +5,5 @@
 #include "server_CommandList.h"
 
 const std::string& CommandList::operator()() {
-    return std::move(monitor.listGames());
+    return monitor.listGames();
 }

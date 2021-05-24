@@ -29,6 +29,12 @@ private:
 public:
     ServProtocol();
 
+    ServProtocol(const ServProtocol& other) = delete;
+    ServProtocol& operator=(const ServProtocol& other) = delete;
+
+    ServProtocol(ServProtocol&& other) noexcept;
+    ServProtocol& operator=(ServProtocol&& other) noexcept;
+
     int send(Socket& socket, const std::string& message);
     std::vector<unsigned char> receive(Socket& socket);
 

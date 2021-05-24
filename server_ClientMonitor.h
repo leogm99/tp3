@@ -20,7 +20,7 @@ public:
     ClientMonitor();
 
     const std::string& listGames();
-    const std::string& createGame(std::string& gameName);
+    const std::string& createGame(const std::string& gameName);
     void joinGame(const std::string& gameName);
     GameMonitor& accessGame(const std::string& game);
 

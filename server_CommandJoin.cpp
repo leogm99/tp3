@@ -9,7 +9,14 @@ const std::string& CommandJoin::operator()() {
         throw std::exception();
     }
     std::string searchedGame(msg.begin() + 3, msg.end());
-    monitor.joinGame(searchedGame);
-    GameMonitor& game = monitor.accessGame(searchedGame);
-    return game.showBoard(clientSymbol);
+    try {
+        monitor.joinGame(searchedGame);
+        GameMonitor& game = monitor.accessGame(searchedGame);
+        gameName = searchedGame;
+        clientSymbol = 'X';
+        return game.showBoard(clientSymbol);
+    } catch(std::invalid_argument& e){
+        std::cout << e.what();
+        throw;
+    }
 }

@@ -14,8 +14,7 @@ Socket::Socket(int fd) {
 }
 
 struct addrinfo *Socket::getAddrInfo(const char *host, const char *service, int caller_flags) {
-    struct addrinfo hints;
-    memset(&hints, 0, sizeof(struct addrinfo));
+    struct addrinfo hints{};
     hints.ai_family = AF_INET;
     hints.ai_socktype = SOCK_STREAM;
     hints.ai_flags = caller_flags;
@@ -57,12 +56,10 @@ int Socket::bindAndListen(const char *service) {
 
     freeaddrinfo(results);
     if (bind_error || (fd < 0)){
-        std::cout << errno;
-        std::cout << "aca\n";
         return -1;
     }
 
-    if (listen(fd, 1) == -1){
+    if (listen(fd, 10) == -1){
         return -1;
     }
 
@@ -71,9 +68,11 @@ int Socket::bindAndListen(const char *service) {
 
 Socket Socket::accept() {
     int peerFd = ::accept(fd, nullptr, nullptr);
-    /*if (fd < 0){
-        // tirar excepcion
-    }*/
+    if (errno == EINVAL){
+        // ya se cerro y se hizo close
+        fd = -1;
+        throw std::invalid_argument("Listener closed");
+    }
     return Socket(peerFd);
 }
 
@@ -106,6 +105,13 @@ int Socket::connect(const char *host, const char *service) {
 
     freeaddrinfo(results);
     return -1;
+}
+
+void Socket::shutdown() const {
+    if (fd > 0) {
+        ::shutdown(fd, SHUT_RDWR);
+        close(fd);
+    }
 }
 
 ssize_t Socket::send(const void *buffer, size_t length) {
@@ -141,7 +147,7 @@ ssize_t Socket::receive(void *buffer, size_t length) {
 
 Socket::~Socket() {
     if (fd > 0){
-        shutdown(fd, SHUT_RDWR);
+        ::shutdown(fd, SHUT_RDWR);
         close(fd);
     }
 }
@@ -156,5 +162,6 @@ Socket &Socket::operator=(Socket &&other) noexcept{
     other.fd = -1;
     return *this;
 }
+
 
 

@@ -5,8 +5,8 @@
 #include "server_GameMonitor.h"
 
 GameMonitor::GameMonitor()
-: gameBoard(std::move(Board(
-        std::move(BoardView())))){
+: gameBoard(Board(
+        BoardView())){
     currPlayer = 'O';
 }
 
@@ -32,7 +32,6 @@ const std::string& GameMonitor::play(unsigned char clientSymbol, unsigned int co
     }
     // no se despertaria hasta que el actual salga de scope
     // pero cuando el del viejo turno salga, ya se puede jugar
-    turn.notify_all();
     return gameBoard.print();
 }
 

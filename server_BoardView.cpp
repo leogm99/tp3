@@ -8,7 +8,7 @@
 
 
 BoardView::BoardView()
-: fh(std::move(BoardFileHandler("board.txt"))){
+: fh(BoardFileHandler("board.txt")){
     boardView = std::move(fh.getPlainBoard());
 }
 
@@ -22,10 +22,12 @@ void BoardView::updateAt(unsigned int col, unsigned int row, char symbol) {
 }
 
 BoardView::BoardView(BoardView &&other) noexcept
-: boardView(std::move(other.boardView)), fh(std::move(other.fh)){
+: fh(std::move(other.fh)) {
+    boardView = fh.getPlainBoard();
 }
 
 BoardView &BoardView::operator=(BoardView &&other) noexcept {
+    fh = std::move(other.fh);
     boardView = std::move(other.boardView);
     return *this;
 }
