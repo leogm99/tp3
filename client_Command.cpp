@@ -12,6 +12,7 @@ Command::Command() {
 }
 
 void Command::serializeCommand() {
+   actualCommand.clear();
    std::string in;
    std::getline(std::cin, in);
    std::stringstream ss(in);
@@ -23,7 +24,7 @@ void Command::serializeCommand() {
        command = validCommands.at(stringCommand);
        dispatch(command, ss);
    } catch(const std::exception& e){
-       std::cout << e.what();
+       throw e;
    }
 }
 
@@ -47,7 +48,6 @@ void Command::dispatch(uint8_t command, std::stringstream& ss) {
 }
 
 void Command::create(std::stringstream& ss) {
-    actualCommand.clear();
     actualCommand.emplace_back(crear);
     std::string game;
     ss >> game;
@@ -58,12 +58,10 @@ void Command::create(std::stringstream& ss) {
 }
 
 void Command::list() {
-    actualCommand.clear();
     actualCommand.emplace_back(listar);
 }
 
 void Command::join(std::stringstream& ss) {
-    actualCommand.clear();
     actualCommand.emplace_back(unirse);
     std::string game;
     ss >> game;
@@ -74,7 +72,6 @@ void Command::join(std::stringstream& ss) {
 }
 
 void Command::play(std::stringstream& ss) {
-    actualCommand.clear();
     actualCommand.emplace_back(jugar);
     std::string row;
     std::string col;

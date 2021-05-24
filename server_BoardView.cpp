@@ -7,8 +7,8 @@
 #include <utility>
 
 
-BoardView::BoardView(const BoardFileHandler& fh)
-: fh(fh){
+BoardView::BoardView()
+: fh(std::move(BoardFileHandler("board.txt"))){
     boardView = std::move(fh.getPlainBoard());
 }
 
@@ -22,8 +22,7 @@ void BoardView::updateAt(unsigned int col, unsigned int row, char symbol) {
 }
 
 BoardView::BoardView(BoardView &&other) noexcept
-: boardView(std::move(other.boardView)),
-  fh(other.fh){
+: boardView(std::move(other.boardView)), fh(std::move(other.fh)){
 }
 
 BoardView &BoardView::operator=(BoardView &&other) noexcept {

@@ -9,28 +9,30 @@
 #include "server_CommandList.h"
 
 
-CommandHandler::CommandHandler(std::vector<unsigned char>& message, ClientHandler &handler, ClientMonitor &monitor)
-: msg(message), clientHandler(handler), monitor(monitor){
+CommandHandler::CommandHandler(std::vector<unsigned char>& message, unsigned char& clientSymbol,
+                               std::string& gameName, ClientMonitor &monitor)
+: msg(message), clientSymbol(clientSymbol), gameName(gameName), monitor(monitor){
 }
 
 
 std::unique_ptr<CommandHandler>
 CommandHandler::getCommand(std::vector<unsigned char>& message,
-                           ClientHandler &handler,
+                           unsigned char& clientSymbol,
+                           std::string& gameName,
                            ClientMonitor &monitor) {
     switch (message.at(0)){
         case jugar:
             return std::unique_ptr<CommandHandler>
-            (new CommandPlay(message, handler, monitor));
+            (new CommandPlay(message, clientSymbol, gameName, monitor));
         case crear:
             return std::unique_ptr<CommandHandler>
-            (new CommandCreate(message, handler, monitor));
+            (new CommandCreate(message, clientSymbol, gameName, monitor));
         case listar:
             return std::unique_ptr<CommandHandler>
-            (new CommandList(message, handler, monitor));
+            (new CommandList(message, clientSymbol, gameName, monitor));
         case unirse:
             return std::unique_ptr<CommandHandler>
-            (new CommandJoin(message, handler, monitor));
+            (new CommandJoin(message, clientSymbol, gameName, monitor));
     }
     throw std::exception();
 }

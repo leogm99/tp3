@@ -18,18 +18,21 @@ private:
     static const uint8_t jugar = 0x70;
 protected:
     std::vector<unsigned char>& msg;
-    ClientHandler& clientHandler;
+    unsigned char& clientSymbol;
+    std::string& gameName;
     ClientMonitor& monitor;
 public:
     CommandHandler(std::vector<unsigned char>& message,
-                   ClientHandler& handler,
+                   unsigned char& clientSymbol,
+                   std::string& gameName,
                    ClientMonitor& monitor);
 
     virtual std::string operator()() = 0;
 
     static std::unique_ptr<CommandHandler>
     getCommand(std::vector<unsigned char>& message,
-               ClientHandler &handler,
+               unsigned char& clientSymbol,
+               std::string& gameName,
                ClientMonitor &monitor);
 
     virtual ~CommandHandler();

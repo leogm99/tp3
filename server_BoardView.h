@@ -12,9 +12,9 @@
 class BoardView {
 private:
     std::string boardView;
-    const BoardFileHandler& fh;
+    BoardFileHandler fh;
 public:
-    explicit BoardView(const BoardFileHandler& fh);
+    explicit BoardView();
 
     BoardView(const BoardView& other) = delete;
     BoardView& operator=(const BoardView& other) = delete;

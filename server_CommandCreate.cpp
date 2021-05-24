@@ -10,5 +10,11 @@ std::string CommandCreate::operator()() {
     } catch(const std::exception& e){
         throw;
     }*/
+    if (!gameName.empty()){
+        throw std::exception();
+    }
+    gameName.assign(msg.begin() + 3, msg.end());
+    monitor.createGame(gameName);
+    clientSymbol = 'O';
     return std::string();
 }

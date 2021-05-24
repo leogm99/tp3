@@ -4,15 +4,14 @@
 
 #include "server_ClientMonitor.h"
 
-ClientMonitor::ClientMonitor()
-: fh("board.txt"){
+ClientMonitor::ClientMonitor(){
 }
 
 std::string ClientMonitor::listGames() {
     std::lock_guard<std::mutex> lockGuard(clientsMutex);
-    std::string names("Partidas:");
+    std::string names("Partidas:\n");
     for (const auto& game : games){
-        names.append(game.first);
+        names.append(" - " + game.first + "\n");
     }
     return names;
 }
@@ -27,11 +26,11 @@ GameMonitor &ClientMonitor::accessGame(const std::string &game) {
     }
 }
 
-void ClientMonitor::createGame(const std::string &gameName) {
+void ClientMonitor::createGame(std::string& gameName) {
     std::lock_guard<std::mutex> lockGuard(clientsMutex);
     auto it = games.find(gameName);
     if (it == games.end()){
-        games[gameName] = std::make_pair(GameMonitor(), true);
+        games[gameName] = std::move(std::make_pair(std::move(GameMonitor()), true));
         return;
     }
     throw std::string("Game already exists");

@@ -2,6 +2,7 @@
 // Created by leogm99 on 19/5/21.
 //
 
+#include <iostream>
 #include "server_BoardFileHandler.h"
 
 BoardFileHandler::BoardFileHandler(const char *boardFile) :
@@ -14,7 +15,6 @@ boardMapping(std::move(createMap())){
     std::stringstream buffer;
     buffer << f.rdbuf();
     plainBoard = std::move(buffer.str());
-
 }
 
 std::string BoardFileHandler::getPlainBoard() const {

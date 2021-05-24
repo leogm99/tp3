@@ -5,7 +5,8 @@
 #include "server_GameMonitor.h"
 
 GameMonitor::GameMonitor()
-: gameBoard(std::move(BoardView(BoardFileHandler("board.txt")))){
+: gameBoard(std::move(Board(
+        std::move(BoardView())))){
     currPlayer = 'O';
 }
 
