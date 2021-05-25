@@ -24,10 +24,19 @@ void ClientHandler::run() {
         std::unique_ptr<CommandHandler> cmd =
                 CommandHandler::
         getCommand(msg, symbol, game, monitor, dead);
-        const std::string& msgBack = cmd->operator()();
-        if (servProtocol.send(clientSocket, msgBack) < 0){
-            break;
+        try {
+            const std::string& msgBack = cmd->operator()();
+            if (servProtocol.send(clientSocket, msgBack) < 0){
+                break;
+            }
+        } catch (const std::invalid_argument& e){
+            servProtocol.send(clientSocket, e.what());
+        } catch (const std::exception& e){
+            servProtocol.send(clientSocket, e.what());
         }
+    }
+    if (!game.empty()){
+        monitor.signalGameDone(game);
     }
     dead = true;
 }

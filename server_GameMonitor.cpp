@@ -23,11 +23,7 @@ const std::string& GameMonitor::play(unsigned char clientSymbol,
         turn.notify_all();
         return gameBoard.print();
     }
-    try {
-        gameBoard.placeAt(col, row);
-    } catch (const std::exception& e){
-        throw e;
-    }
+    gameBoard.placeAt(col, row);
 
     if (handleGameDoneMessage(gameDoneMsg)){
         currPlayer = gameBoard.getCurrentPlayer();

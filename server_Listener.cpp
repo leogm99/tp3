@@ -28,6 +28,7 @@ void Listener::run() {
         auto it = clients.begin();
         while (it != clients.end()){
             if ((*it)->isDead()){
+                (*it)->join();
                 delete *it;
                 it = clients.erase(it);
             } else {

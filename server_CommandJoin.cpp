@@ -6,17 +6,12 @@
 
 const std::string& CommandJoin::operator()() {
     if (!gameName.empty()){
-        throw std::exception();
+        throw std::invalid_argument("You are already queued for a game\n");
     }
     std::string searchedGame(msg.begin() + 3, msg.end());
-    try {
-        monitor.joinGame(searchedGame);
-        GameMonitor& game = monitor.accessGame(searchedGame);
-        gameName = searchedGame;
-        clientSymbol = 'X';
-        return game.showBoard(clientSymbol);
-    } catch(std::invalid_argument& e){
-        std::cout << e.what();
-        throw;
-    }
+    monitor.joinGame(searchedGame);
+    GameMonitor& game = monitor.accessGame(searchedGame);
+    gameName = searchedGame;
+    clientSymbol = 'X';
+    return game.showBoard(clientSymbol);
 }
