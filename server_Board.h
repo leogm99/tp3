@@ -12,9 +12,10 @@ private:
     BoardView bv;
     std::array<char, 9> rawBoard{0};
     char currentSymbol;
+    unsigned char aWinner;
+    void updateSymbol();
     bool isOccupied(unsigned int col, unsigned int row) const;
     bool isValidMove(unsigned int col, unsigned int row) const;
-    void updateSymbol();
     unsigned int index(unsigned int col, unsigned int row) const;
 public:
     explicit Board(BoardView bv);
@@ -26,9 +27,10 @@ public:
     Board& operator=(Board&& other) noexcept;
 
     void placeAt(unsigned int col, unsigned int row);
-    char checkWon();
+    unsigned char checkWon();
     const std::string& print();
 
+    unsigned char getWinner();
     unsigned char getCurrentPlayer();
 
     ~Board();

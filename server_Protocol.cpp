@@ -42,7 +42,6 @@ std::vector<unsigned char> ServProtocol::receive(Socket &socket) {
             return std::vector<unsigned char>();
         }
         msgLen = ntohs(msgLen);
-        std::cout << msgLen << std::endl;
         v.resize(1 + 2 + msgLen);
         if (socket.receive(v.data() + 3, msgLen) < msgLen){
             return std::vector<unsigned char>();

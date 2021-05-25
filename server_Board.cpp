@@ -7,6 +7,7 @@
 
 Board::Board(BoardView bv)
 : bv(std::move(bv)), currentSymbol('O') {
+    aWinner = 'N';
 }
 
 bool Board::isOccupied(unsigned int col, unsigned int row) const {
@@ -37,10 +38,11 @@ void Board::placeAt(unsigned int col, unsigned int row) {
     }
     rawBoard.at(index(col, row)) = currentSymbol;
     bv.updateAt(col, row, currentSymbol);
+    aWinner = checkWon();
     updateSymbol();
 }
 
-char Board::checkWon() {
+unsigned char Board::checkWon() {
     // primero, verticalmente
     for (size_t c = 1; c <= 3; ++c){
         if (rawBoard.at(index(c, 1)) == currentSymbol &&
@@ -93,6 +95,7 @@ Board::~Board() {
 Board::Board(Board &&other) noexcept
 : bv(std::move(other.bv)), rawBoard(other.rawBoard){
     this->currentSymbol = other.currentSymbol;
+    this->aWinner = other.aWinner;
     other.currentSymbol = 'N';
 }
 
@@ -101,8 +104,11 @@ Board &Board::operator=(Board &&other) noexcept {
     rawBoard = other.rawBoard;
     this->currentSymbol = other.currentSymbol;
     other.currentSymbol = 'N';
+    this->aWinner = other.aWinner;
     return *this;
 }
 
 
-
+unsigned char Board::getWinner() {
+    return aWinner;
+}

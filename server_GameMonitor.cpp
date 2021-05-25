@@ -10,25 +10,42 @@ GameMonitor::GameMonitor()
     currPlayer = 'O';
 }
 
-const std::string& GameMonitor::play(unsigned char clientSymbol, unsigned int col, unsigned int row) {
+const std::string& GameMonitor::play(unsigned char clientSymbol,
+                                     unsigned int col,
+                                     unsigned int row, std::string& gameDoneMsg) {
     std::unique_lock<std::mutex> lock(gameLock);
     // mientras que no sea el current player, espero
-    while (clientSymbol != currPlayer){
+    while ((clientSymbol != currPlayer) && gameBoard.getWinner() == 'N'){
         turn.wait(lock);
+    }
+
+    if (handleGameDoneMessage(gameDoneMsg)){
+        turn.notify_all();
+        return gameBoard.print();
     }
     try {
         gameBoard.placeAt(col, row);
     } catch (const std::exception& e){
         throw e;
     }
+
+    if (handleGameDoneMessage(gameDoneMsg)){
+        currPlayer = gameBoard.getCurrentPlayer();
+        turn.notify_all();
+        return gameBoard.print();
+    } else {
+        currPlayer = gameBoard.getCurrentPlayer();
+        turn.notify_all();
+        while ((clientSymbol != currPlayer) && gameBoard.getWinner() == 'N'){
+            turn.wait(lock);
+        }
+    }
     // el tablero actualiza al proximo jugador
     // por ende lo actualizo aqui
-    currPlayer = gameBoard.getCurrentPlayer();
-    turn.notify_all();
     // espero nuevamente a que el otro jugador haga una movida
     // asi puedo devolver el tablero
-    while (clientSymbol != currPlayer){
-        turn.wait(lock);
+    if (handleGameDoneMessage(gameDoneMsg)){
+        return gameBoard.print();
     }
     // no se despertaria hasta que el actual salga de scope
     // pero cuando el del viejo turno salga, ya se puede jugar
@@ -57,4 +74,19 @@ const std::string& GameMonitor::showBoard(unsigned char clientSymbol) {
         turn.wait(lock);
     }
     return gameBoard.print();
+}
+
+bool GameMonitor::handleGameDoneMessage(std::string &msgGameDone) {
+    unsigned char gameDone;
+    if ((gameDone = gameBoard.getWinner()) != 'N') {
+        if (gameDone == currPlayer) {
+            msgGameDone += "Felicitaciones! Ganaste!\n";
+        } else if (gameDone != 'E'){
+            msgGameDone += "Has perdido. Segui intentando!\n";
+        } else {
+            msgGameDone += "La partida ha terminado en empate\n";
+        }
+        return true;
+    }
+    return false;
 }

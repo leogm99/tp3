@@ -10,6 +10,9 @@
 #include "server_CommandHandler.h"
 
 class CommandPlay : public CommandHandler {
+private:
+    std::string gameBoardStatus;
+    std::string msgGameDone;
 public:
     using CommandHandler::CommandHandler;
     const std::string& operator()() override;
