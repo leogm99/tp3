@@ -21,11 +21,13 @@ protected:
     unsigned char& clientSymbol;
     std::string& gameName;
     ClientMonitor& monitor;
+    bool& clientIsDead;
 public:
     CommandHandler(std::vector<unsigned char>& message,
                    unsigned char& clientSymbol,
                    std::string& gameName,
-                   ClientMonitor& monitor);
+                   ClientMonitor& monitor,
+                   bool& clientDead);
 
     virtual const std::string& operator()() = 0;
 
@@ -33,7 +35,8 @@ public:
     getCommand(std::vector<unsigned char>& message,
                unsigned char& clientSymbol,
                std::string& gameName,
-               ClientMonitor &monitor);
+               ClientMonitor &monitor,
+               bool& clientDead);
 
     virtual ~CommandHandler();
 };

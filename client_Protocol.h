@@ -26,10 +26,12 @@ private:
     // how many bytes proceed to the
     // corresponding message to send/receive
     std::map<unsigned char, unsigned int> byteMap;
+
+    Socket clientSocket;
 public:
-    CliProtocol();
-    int send(Socket& socket, const std::vector<unsigned char>& message);
-    std::vector<unsigned char> receive(Socket& socket);
+    CliProtocol(const char* host, const char* service);
+    int send(const std::vector<unsigned char>& message);
+    std::vector<unsigned char> receive();
 
     ~CliProtocol();
 };

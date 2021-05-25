@@ -10,8 +10,9 @@
 
 
 CommandHandler::CommandHandler(std::vector<unsigned char>& message, unsigned char& clientSymbol,
-                               std::string& gameName, ClientMonitor &monitor)
-: msg(message), clientSymbol(clientSymbol), gameName(gameName), monitor(monitor){
+                               std::string& gameName, ClientMonitor &monitor, bool& clientDead)
+: msg(message), clientSymbol(clientSymbol),
+gameName(gameName), monitor(monitor), clientIsDead(clientDead){
 }
 
 
@@ -19,20 +20,21 @@ std::unique_ptr<CommandHandler>
 CommandHandler::getCommand(std::vector<unsigned char>& message,
                            unsigned char& clientSymbol,
                            std::string& gameName,
-                           ClientMonitor &monitor) {
+                           ClientMonitor &monitor,
+                           bool& clientDead) {
     switch (message.at(0)){
         case jugar:
             return std::unique_ptr<CommandHandler>
-            (new CommandPlay(message, clientSymbol, gameName, monitor));
+            (new CommandPlay(message, clientSymbol, gameName, monitor, clientDead));
         case crear:
             return std::unique_ptr<CommandHandler>
-            (new CommandCreate(message, clientSymbol, gameName, monitor));
+            (new CommandCreate(message, clientSymbol, gameName, monitor, clientDead));
         case listar:
             return std::unique_ptr<CommandHandler>
-            (new CommandList(message, clientSymbol, gameName, monitor));
+            (new CommandList(message, clientSymbol, gameName, monitor, clientDead));
         case unirse:
             return std::unique_ptr<CommandHandler>
-            (new CommandJoin(message, clientSymbol, gameName, monitor));
+            (new CommandJoin(message, clientSymbol, gameName, monitor, clientDead));
     }
     throw std::exception();
 }

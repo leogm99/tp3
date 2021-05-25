@@ -14,6 +14,7 @@ const std::string& CommandPlay::operator()() {
     gameBoardStatus += g.play(clientSymbol, col, row, msgGameDone);
     if (!msgGameDone.empty()){
         gameBoardStatus += msgGameDone;
+        clientIsDead = true;
     }
     return gameBoardStatus;
 }

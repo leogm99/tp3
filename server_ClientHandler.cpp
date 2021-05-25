@@ -18,12 +18,18 @@ void ClientHandler::run() {
     std::vector <unsigned char> msg;
     while (!dead){
         msg = std::move(servProtocol.receive(clientSocket));
+        if (msg.empty()){
+            break;
+        }
         std::unique_ptr<CommandHandler> cmd =
                 CommandHandler::
-        getCommand(msg, symbol, game, monitor);
+        getCommand(msg, symbol, game, monitor, dead);
         const std::string& msgBack = cmd->operator()();
-        servProtocol.send(clientSocket, msgBack);
+        if (servProtocol.send(clientSocket, msgBack) < 0){
+            break;
+        }
     }
+    dead = true;
 }
 
 ClientHandler::~ClientHandler() {

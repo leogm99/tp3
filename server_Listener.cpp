@@ -21,19 +21,19 @@ void Listener::run() {
         } catch(const std::invalid_argument& e){
             break;
         }
-
-        //clients.emplace_back(cliMonitor, protocol, std::move(clientSocket));
-        //clients.back().start(); // lo guardo y start()
         auto* newCli = new ClientHandler(cliMonitor, protocol, std::move(clientSocket));
         newCli->start();
         clients.push_back(newCli);
-        /*auto newEnd = std::remove_if(clients.begin(),
-                       clients.end(),
-                       [](ClientHandler& cli){
-                            return cli.isDead();
-                        });
-        // si no estan jugando, los limpio
-        clients.erase(newEnd, clients.end());*/
+
+        auto it = clients.begin();
+        while (it != clients.end()){
+            if ((*it)->isDead()){
+                delete *it;
+                it = clients.erase(it);
+            } else {
+                ++it;
+            }
+        }
     }
     // espero a que todos terminen
     for (auto& cli : clients){

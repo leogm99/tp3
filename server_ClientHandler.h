@@ -18,7 +18,6 @@ private:
     Socket clientSocket;
     std::string game;
     unsigned char symbol;
-    //std::atomic_bool dead{false};
     bool dead;
 protected:
     void run() override;
