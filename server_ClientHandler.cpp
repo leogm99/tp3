@@ -37,9 +37,6 @@ void ClientHandler::run() {
             servProtocol.send(clientSocket, e.what());
         }
     }
-    if (!game.empty()){
-        monitor.signalGameDone(game);
-    }
     dead = true;
 }
 

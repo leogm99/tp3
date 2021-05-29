@@ -6,7 +6,8 @@
 #include <cstring>
 #include <iostream>
 
-Socket::Socket(){
+Socket::Socket()
+: fd(-1){
 }
 
 Socket::Socket(int fd) {
@@ -54,6 +55,7 @@ int Socket::bindAndListen(const char *service) {
         }
         // falla bind, cierro el fd
         close(fd);
+        fd = -1;
     }
 
     freeaddrinfo(results);
@@ -103,6 +105,7 @@ int Socket::connect(const char *host, const char *service) {
         }
 
         close(fd);
+        fd = -1;
     }
 
     freeaddrinfo(results);

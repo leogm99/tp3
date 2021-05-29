@@ -6,6 +6,7 @@
 
 Board::Board(BoardView bv)
 : bv(std::move(bv)), currentSymbol('O') {
+    rawBoard.fill(0);
     aWinner = 'N';
 }
 
