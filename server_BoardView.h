@@ -1,7 +1,6 @@
 #ifndef TP3_SERVER_BOARDVIEW_H
 #define TP3_SERVER_BOARDVIEW_H
 
-#include "server_BoardFileHandler.h"
 #include <iostream>
 #include <string>
 #include <utility>
