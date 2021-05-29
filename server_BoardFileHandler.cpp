@@ -1,13 +1,10 @@
-//
-// Created by leogm99 on 19/5/21.
-//
-
 #include <iostream>
+#include <string>
 #include "server_BoardFileHandler.h"
 
 BoardFileHandler::BoardFileHandler(const char *boardFile) :
 boardMapping(std::move(createMap())){
-    std::ifstream f{boardFile};
+    std::ifstream f(boardFile);
     if (!f.is_open()){
         throw BoardException("Could not open board file "
                              "shuting down");
@@ -34,7 +31,8 @@ BoardFileHandler::BoardFileHandler(BoardFileHandler &&other) noexcept
   boardMapping(std::move(other.boardMapping)){
 }
 
-BoardFileHandler &BoardFileHandler::operator=(BoardFileHandler &&other) noexcept {
+BoardFileHandler &BoardFileHandler::
+operator=(BoardFileHandler &&other) noexcept {
     if (this == &other){
         return *this;
     }

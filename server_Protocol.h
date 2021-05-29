@@ -1,7 +1,3 @@
-//
-// Created by leogm99 on 21/5/21.
-//
-
 #ifndef TP3_SERVER_PROTOCOL_H
 #define TP3_SERVER_PROTOCOL_H
 
@@ -26,6 +22,7 @@ private:
     // how many bytes proceed to the
     // corresponding message to send/receive
     std::map<unsigned char, unsigned int> byteMap;
+
 public:
     ServProtocol();
 

@@ -1,9 +1,7 @@
-//
-// Created by leogm99 on 19/5/21.
-//
-
 #include "server_Board.h"
 #include "server_BoardException.h"
+#include <string>
+#include <algorithm>
 
 Board::Board(BoardView bv)
 : bv(std::move(bv)), currentSymbol('O') {
@@ -71,12 +69,13 @@ unsigned char Board::checkWon() {
         currentSymbol == rawBoard.at(index(1, 3))){
         return currentSymbol;
     }
+
     //quinto, check tablero lleno
-    for (char c : rawBoard){
-        if (c == 0) { // no lleno, sigan
-            return 'N';
-        }
+    if (std::any_of(rawBoard.begin(), rawBoard.end(),
+                [](char c){ return !c;})){
+        return 'N';
     }
+
     // si llego aca, empataron
     return 'E';
 }

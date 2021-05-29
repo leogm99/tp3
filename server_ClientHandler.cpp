@@ -1,18 +1,17 @@
-//
-// Created by leogm99 on 22/5/21.
-//
-
+#include <vector>
+#include <string>
 #include "server_ClientHandler.h"
 #include "server_ClientMonitor.h"
 #include "common_Socket.h"
 #include "server_CommandHandler.h"
 
-ClientHandler::ClientHandler(ClientMonitor& aMonitor, ServProtocol& protocol, Socket clientSocket)
-:  monitor(aMonitor), servProtocol(protocol), clientSocket(std::move(clientSocket)) {
+ClientHandler::ClientHandler(ClientMonitor& aMonitor,
+                             ServProtocol& protocol,
+                             Socket clientSocket)
+:  monitor(aMonitor), servProtocol(protocol),
+   clientSocket(std::move(clientSocket)),
+   dead(false), playing(false){
     symbol = 'N';
-    game = "";
-    dead = false;
-    playing = false;
 }
 
 void ClientHandler::run() {
@@ -30,9 +29,9 @@ void ClientHandler::run() {
             if (servProtocol.send(clientSocket, msgBack) < 0){
                 break;
             }
-        } catch (const std::invalid_argument& e){
+        } catch(const std::invalid_argument& e){
             servProtocol.send(clientSocket, e.what());
-        } catch (const std::exception& e){
+        } catch(const std::exception& e){
             servProtocol.send(clientSocket, e.what());
         }
     }
@@ -54,11 +53,14 @@ ClientHandler::ClientHandler(ClientHandler &&other) noexcept
   monitor(other.monitor),
   servProtocol(other.servProtocol),
   clientSocket(std::move(other.clientSocket)),
-  game(std::move(other.game)){
-    dead = false;
+  game(std::move(other.game)),
+  dead(false){
     other.game = "";
     symbol = other.symbol;
     other.symbol = 'N';
+    if (!game.empty()){
+        playing = true;
+    }
 }
 
 ClientHandler &ClientHandler::operator=(ClientHandler &&other) noexcept {
@@ -70,6 +72,9 @@ ClientHandler &ClientHandler::operator=(ClientHandler &&other) noexcept {
     other.game = "";
     symbol = other.symbol;
     dead = false;
+    if (!game.empty()){
+        playing = true;
+    }
     return *this;
 }
 

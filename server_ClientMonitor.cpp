@@ -1,7 +1,5 @@
-//
-// Created by leogm99 on 22/5/21.
-//
-
+#include <string>
+#include <algorithm>
 #include "server_ClientMonitor.h"
 
 ClientMonitor::ClientMonitor(){
@@ -11,8 +9,10 @@ const std::string& ClientMonitor::listGames() {
     std::lock_guard<std::mutex> lockGuard(clientsMutex);
     namesList.clear();
     namesList = "Partidas:\n";
-    for (const auto& game : games){
-        namesList += " - " + game.first + "\n";
+    auto it = games.begin();
+    while (it != games.end()){
+        namesList += " - " + (*it).first + "\n";
+        ++it;
     }
     return namesList;
 }
@@ -31,8 +31,8 @@ const std::string& ClientMonitor::createGame(const std::string& gameName) {
     auto it = games.find(gameName);
     if (it == games.end()){
         games.emplace(std::make_pair(
-                gameName, std::make_pair(GameMonitor(), true)
-        ));
+                gameName,
+                std::make_pair(GameMonitor(), true)));
         return games.at(gameName).first.showBoard('O');
     }
     throw std::invalid_argument("Game already exists\n");

@@ -1,11 +1,7 @@
-//
-// Created by leogm99 on 22/5/21.
-//
-
 #ifndef TP3_SERVER_COMMANDHANDLER_H
 #define TP3_SERVER_COMMANDHANDLER_H
 
-
+#include <string>
 #include <vector>
 #include <atomic>
 #include "server_ClientMonitor.h"
@@ -20,6 +16,7 @@ private:
     static const uint8_t listar = 0x6c;
     static const uint8_t unirse = 0x6a;
     static const uint8_t jugar = 0x70;
+
 protected:
     std::vector<unsigned char>& msg;
     unsigned char& clientSymbol;
@@ -27,6 +24,7 @@ protected:
     ClientMonitor& monitor;
     std::atomic_bool& clientIsDead;
     std::atomic_bool& playing;
+
 public:
     CommandHandler(std::vector<unsigned char>& message,
                    unsigned char& clientSymbol,

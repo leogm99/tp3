@@ -1,10 +1,7 @@
-//
-// Created by leogm99 on 21/5/21.
-//
-
 #ifndef TP3_SERVER_COMMANDLIST_H
 #define TP3_SERVER_COMMANDLIST_H
 
+#include <string>
 #include "server_CommandHandler.h"
 
 class CommandList : public CommandHandler {

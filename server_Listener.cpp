@@ -21,7 +21,9 @@ void Listener::run() {
         } catch(const std::invalid_argument& e){
             break;
         }
-        auto* newCli = new ClientHandler(cliMonitor, protocol, std::move(clientSocket));
+        auto* newCli = new ClientHandler(cliMonitor,
+                                         protocol,
+                                         std::move(clientSocket));
         newCli->start();
         clients.push_back(newCli);
 

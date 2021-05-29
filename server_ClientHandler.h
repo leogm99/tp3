@@ -1,11 +1,8 @@
-//
-// Created by leogm99 on 22/5/21.
-//
-
 #ifndef TP3_SERVER_CLIENTHANDLER_H
 #define TP3_SERVER_CLIENTHANDLER_H
 
 #include <atomic>
+#include <string>
 #include "server_Thread.h"
 #include "server_ClientMonitor.h"
 #include "common_Socket.h"
@@ -20,11 +17,14 @@ private:
     unsigned char symbol;
     std::atomic_bool dead;
     std::atomic_bool playing;
-    std::mutex clientMutex;
+
 protected:
     void run() override;
+
 public:
-    ClientHandler(ClientMonitor& aMonitor, ServProtocol& protocol, Socket clientSocket);
+    ClientHandler(ClientMonitor& aMonitor,
+                  ServProtocol& protocol,
+                  Socket clientSocket);
 
     ClientHandler(const ClientHandler& other) = delete;
     ClientHandler& operator=(const ClientHandler& other) = delete;

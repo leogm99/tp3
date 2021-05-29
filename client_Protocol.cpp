@@ -1,12 +1,9 @@
-//
-// Created by leogm99 on 21/5/21.
-//
-
 #include "client_Protocol.h"
+#include <vector>
 #include <iostream>
 
-CliProtocol::CliProtocol(const char* host, const char* service) {
-    byteMap = std::move(createMap());
+CliProtocol::CliProtocol(const char* host, const char* service) :
+byteMap(std::move(createMap())) {
     if (clientSocket.connect(host, service) < 0){
         throw std::invalid_argument("Connect failed, server is not up\n");
     }

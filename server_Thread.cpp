@@ -1,7 +1,3 @@
-//
-// Created by leogm99 on 22/5/21.
-//
-
 #include "server_Thread.h"
 #include <utility>
 

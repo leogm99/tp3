@@ -1,15 +1,13 @@
-//
-// Created by leogm99 on 22/5/21.
-//
-
 #include "server_CommandHandler.h"
 #include "server_CommandPlay.h"
 #include "server_CommandCreate.h"
 #include "server_CommandJoin.h"
 #include "server_CommandList.h"
+#include <string>
+#include <vector>
 
-
-CommandHandler::CommandHandler(std::vector<unsigned char>& message, unsigned char& clientSymbol,
+CommandHandler::CommandHandler(std::vector<unsigned char>& message,
+                               unsigned char& clientSymbol,
                                std::string& gameName,
                                ClientMonitor &monitor,
                                std::atomic_bool& clientDead,

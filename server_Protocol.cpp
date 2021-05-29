@@ -1,13 +1,11 @@
-//
-// Created by leogm99 on 21/5/21.
-//
-
 #include <iostream>
+#include <string>
+#include <vector>
 #include "server_Protocol.h"
 
 
-ServProtocol::ServProtocol() {
-    byteMap = createMap();
+ServProtocol::ServProtocol()
+:byteMap(std::move(createMap())){
 }
 
 int ServProtocol::send(Socket &socket, const std::string &message) {

@@ -1,10 +1,7 @@
-//
-// Created by leogm99 on 22/5/21.
-//
-
 #ifndef TP3_SERVER_GAMEMONITOR_H
 #define TP3_SERVER_GAMEMONITOR_H
 
+#include <string>
 #include <mutex>
 #include <condition_variable>
 #include "server_BoardFileHandler.h"

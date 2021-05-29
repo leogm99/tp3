@@ -1,8 +1,6 @@
-//
-// Created by leogm99 on 25/5/21.
-//
-
 #include <iostream>
+#include <vector>
+#include <string>
 #include "client_Client.h"
 
 const std::string Client::msgWon = "Felicitaciones! Ganaste!\n";
@@ -17,7 +15,7 @@ int Client::start() {
     while (true){
         try {
             clientCommand.serializeCommand();
-        } catch (const std::exception& e){
+        } catch(const std::exception& e){
             continue;
         }
         if (clientProtocol.send(clientCommand.getCommand()) < 0){

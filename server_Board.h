@@ -1,22 +1,20 @@
-//
-// Created by leogm99 on 19/5/21.
-//
-
 #ifndef TP3_SERVER_BOARD_H
 #define TP3_SERVER_BOARD_H
 #include "server_BoardView.h"
 #include <array>
+#include <string>
 
 class Board {
 private:
     BoardView bv;
-    std::array<char, 9> rawBoard{0};
+    std::array<char, 9> rawBoard;
     char currentSymbol;
     unsigned char aWinner;
     void updateSymbol();
     bool isOccupied(unsigned int col, unsigned int row) const;
     bool isValidMove(unsigned int col, unsigned int row) const;
     unsigned int index(unsigned int col, unsigned int row) const;
+
 public:
     explicit Board(BoardView bv);
 
@@ -34,7 +32,6 @@ public:
     unsigned char getCurrentPlayer();
 
     ~Board();
-
 };
 
 

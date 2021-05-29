@@ -7,3 +7,6 @@ Makefile
 *.o
 casos
 salidas
+filter_options
+execute.sh
+cpplint.py

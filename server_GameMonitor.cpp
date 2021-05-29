@@ -1,7 +1,4 @@
-//
-// Created by leogm99 on 22/5/21.
-//
-
+#include <string>
 #include "server_GameMonitor.h"
 
 GameMonitor::GameMonitor()
@@ -12,7 +9,8 @@ GameMonitor::GameMonitor()
 
 const std::string& GameMonitor::play(unsigned char clientSymbol,
                                      unsigned int col,
-                                     unsigned int row, std::string& gameDoneMsg) {
+                                     unsigned int row,
+                                     std::string& gameDoneMsg) {
     std::unique_lock<std::mutex> lock(gameLock);
     // mientras que no sea el current player, espero
     while ((clientSymbol != currPlayer) && gameBoard.getWinner() == 'N'){

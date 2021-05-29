@@ -13,7 +13,9 @@ Socket::Socket(int fd) {
     this->fd = fd;
 }
 
-struct addrinfo *Socket::getAddrInfo(const char *host, const char *service, int caller_flags) {
+struct addrinfo *Socket::getAddrInfo(const char *host,
+                                     const char *service,
+                                     int caller_flags) {
     struct addrinfo hints{};
     hints.ai_family = AF_INET;
     hints.ai_socktype = SOCK_STREAM;
@@ -84,8 +86,8 @@ int Socket::connect(const char *host, const char *service) {
     }
 
     struct addrinfo *aux = results;
-    int connect_error = 0;
     for (; aux; aux = aux->ai_next){
+        int connect_error;
         fd = socket(aux->ai_family,
                           aux->ai_socktype,
                           aux->ai_protocol);

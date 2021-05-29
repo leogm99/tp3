@@ -1,11 +1,8 @@
-//
-// Created by leogm99 on 20/5/21.
-//
-
 #ifndef TP3_CLIENT_COMMAND_H
 #define TP3_CLIENT_COMMAND_H
 #include <map>
 #include <vector>
+#include <string>
 
 static const uint8_t crear = 0x6e;
 static const uint8_t listar = 0x6c;

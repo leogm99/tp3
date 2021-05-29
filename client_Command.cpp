@@ -1,14 +1,13 @@
-//
-// Created by leogm99 on 20/5/21.
-//
-
 #include "client_Command.h"
 #include <iostream>
 #include <sstream>
+#include <string>
+#include <algorithm>
+#include <vector>
 
-Command::Command() {
-    // el de este namespace por favorcito
-    validCommands = std::move(Command::createMap());
+
+Command::Command()
+: validCommands(std::move(Command::createMap())){
 }
 
 void Command::serializeCommand() {
@@ -19,17 +18,16 @@ void Command::serializeCommand() {
    std::string stringCommand;
 
    ss >> stringCommand;
-   uint8_t command;
    try{
-       command = validCommands.at(stringCommand);
+       uint8_t command = validCommands.at(stringCommand);
        dispatch(command, ss);
    } catch(const std::exception& e){
-       throw e;
+       throw std::invalid_argument("Invalid Command Code\n");
    }
 }
 
 void Command::dispatch(uint8_t command, std::stringstream& ss) {
-    switch(command) {
+    switch (command) {
         case crear:
             create(ss);
             break;

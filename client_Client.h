@@ -1,11 +1,8 @@
-//
-// Created by leogm99 on 25/5/21.
-//
-
 #ifndef TP3_CLIENT_CLIENT_H
 #define TP3_CLIENT_CLIENT_H
 #include "client_Protocol.h"
 #include "client_Command.h"
+#include <string>
 
 class Client {
 private:
