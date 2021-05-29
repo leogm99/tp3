@@ -80,7 +80,7 @@ Socket Socket::accept() {
 
 int Socket::connect(const char *host, const char *service) {
     struct addrinfo* results;
-    results = getAddrInfo(host, service, 0);
+    results = getAddrInfo(nullptr, service, 0);
     if (!results){
         return -1;
     }

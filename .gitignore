@@ -8,3 +8,5 @@ salidas
 filter_options
 execute.sh
 cpplint.py
+server
+client
