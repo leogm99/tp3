@@ -73,8 +73,6 @@ int Socket::bindAndListen(const char *service) {
 Socket Socket::accept() {
     int peerFd = ::accept(fd, nullptr, nullptr);
     if (errno == EINVAL){
-        // ya se cerro y se hizo close
-        fd = -1;
         throw std::invalid_argument("Listener closed");
     }
     return Socket(peerFd);
