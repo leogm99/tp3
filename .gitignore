@@ -1,8 +1,6 @@
 .idea/
 CMakeLists.txt
 cmake-build-debug/
-client_main.cpp
-server_main.cpp
 Makefile
 *.o
 casos
