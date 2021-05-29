@@ -1,10 +1,10 @@
-#include "server_BoardFileHandler.h"
-#include "server_BoardView.h"
-#include "server_ClientMonitor.h"
 #include "server_Listener.h"
 #include <string>
 
 int main(int argc, const char* argv[]){
+    if (argc != 2){
+        return -1;
+    }
     std::string in;
     ClientMonitor clientMonitor;
     Listener l(clientMonitor, argv[1]);
