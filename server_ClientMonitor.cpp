@@ -61,3 +61,13 @@ void ClientMonitor::signalGameDone(const std::string &gameName) {
 
 ClientMonitor::~ClientMonitor() {
 }
+
+bool ClientMonitor::killGameIfJoinable(const std::string &gameName) {
+    std::lock_guard<std::mutex> lockGuard(clientsMutex);
+    auto it = games.find(gameName);
+    if (it != games.end() && it->second.second){
+        games.erase(it);
+        return true;
+    }
+    return false;
+}

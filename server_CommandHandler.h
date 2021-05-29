@@ -7,8 +7,12 @@
 
 
 #include <vector>
+#include <atomic>
 #include "server_ClientMonitor.h"
-#include "server_ClientHandler.h"
+
+// forward declaration
+// necesito llamar a metodos del client desde aca
+class ClientHandler;
 
 class CommandHandler {
 private:
@@ -21,13 +25,15 @@ protected:
     unsigned char& clientSymbol;
     std::string& gameName;
     ClientMonitor& monitor;
-    bool& clientIsDead;
+    std::atomic_bool& clientIsDead;
+    std::atomic_bool& playing;
 public:
     CommandHandler(std::vector<unsigned char>& message,
                    unsigned char& clientSymbol,
                    std::string& gameName,
                    ClientMonitor& monitor,
-                   bool& clientDead);
+                   std::atomic_bool& clientDead,
+                   std::atomic_bool& playing);
 
     virtual const std::string& operator()() = 0;
 
@@ -36,7 +42,8 @@ public:
                unsigned char& clientSymbol,
                std::string& gameName,
                ClientMonitor &monitor,
-               bool& clientDead);
+               std::atomic_bool& clientDead,
+               std::atomic_bool& playing);
 
     virtual ~CommandHandler();
 };

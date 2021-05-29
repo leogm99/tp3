@@ -15,6 +15,7 @@ const std::string& CommandPlay::operator()() {
     if (!msgGameDone.empty()){
         gameBoardStatus += msgGameDone;
         clientIsDead = true;
+        playing = false;
     }
     return gameBoardStatus;
 }

@@ -26,6 +26,8 @@ public:
 
     void signalGameDone(const std::string& gameName);
     ~ClientMonitor();
+
+    bool killGameIfJoinable(const std::string &basicString);
 };
 
 

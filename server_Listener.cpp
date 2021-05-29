@@ -36,7 +36,20 @@ void Listener::run() {
             }
         }
     }
-    // espero a que todos terminen
+
+    auto it = clients.begin();
+    while (it != clients.end()){
+        (*it)->killIfIdle();
+        if ((*it)->isDead()){
+            (*it)->join();
+            delete *it;
+            it = clients.erase(it);
+        } else {
+            ++it;
+        }
+    }
+
+    // espero a que el resto termine
     for (auto& cli : clients){
         cli->join();
         delete cli;

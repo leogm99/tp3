@@ -5,3 +5,5 @@ client_main.cpp
 server_main.cpp
 Makefile
 *.o
+casos
+salidas

@@ -27,6 +27,9 @@ BoardView::BoardView(BoardView &&other) noexcept
 }
 
 BoardView &BoardView::operator=(BoardView &&other) noexcept {
+    if (this == &other){
+        return *this;
+    }
     fh = std::move(other.fh);
     boardView = std::move(other.boardView);
     return *this;

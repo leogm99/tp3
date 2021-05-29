@@ -18,7 +18,9 @@ private:
     Socket clientSocket;
     std::string game;
     unsigned char symbol;
-    bool dead;
+    std::atomic_bool dead;
+    std::atomic_bool playing;
+    std::mutex clientMutex;
 protected:
     void run() override;
 public:
@@ -30,6 +32,7 @@ public:
     ClientHandler(ClientHandler&& other) noexcept;
     ClientHandler& operator=(ClientHandler&& other) noexcept;
 
+    void killIfIdle();
     bool isDead();
     ~ClientHandler() override;
 };

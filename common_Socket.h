@@ -28,7 +28,7 @@ public:
     int bindAndListen(const char* service);
     Socket accept();
     int connect(const char* host, const char* service);
-    void shutdown() const;
+    void shutdown();
 
     ssize_t send(const void* buffer, size_t length);
     ssize_t receive(void* buffer, size_t length);

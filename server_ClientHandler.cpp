@@ -12,6 +12,7 @@ ClientHandler::ClientHandler(ClientMonitor& aMonitor, ServProtocol& protocol, So
     symbol = 'N';
     game = "";
     dead = false;
+    playing = false;
 }
 
 void ClientHandler::run() {
@@ -23,7 +24,7 @@ void ClientHandler::run() {
         }
         std::unique_ptr<CommandHandler> cmd =
                 CommandHandler::
-        getCommand(msg, symbol, game, monitor, dead);
+        getCommand(msg, symbol, game, monitor, dead, playing);
         try {
             const std::string& msgBack = cmd->operator()();
             if (servProtocol.send(clientSocket, msgBack) < 0){
@@ -42,7 +43,6 @@ void ClientHandler::run() {
 }
 
 ClientHandler::~ClientHandler() {
-    dead = true;
 }
 
 bool ClientHandler::isDead() {
@@ -54,18 +54,33 @@ ClientHandler::ClientHandler(ClientHandler &&other) noexcept
   monitor(other.monitor),
   servProtocol(other.servProtocol),
   clientSocket(std::move(other.clientSocket)),
-  game(std::move(other.game)),
-  dead(false){
+  game(std::move(other.game)){
+    dead = false;
     other.game = "";
     symbol = other.symbol;
     other.symbol = 'N';
 }
 
 ClientHandler &ClientHandler::operator=(ClientHandler &&other) noexcept {
+    if (this == &other){
+        return *this;
+    }
     clientSocket = std::move(other.clientSocket);
     game = std::move(other.game);
     other.game = "";
     symbol = other.symbol;
-    other.symbol = 'N';
+    dead = false;
     return *this;
+}
+
+void ClientHandler::killIfIdle() {
+    if (!playing) {
+        dead = true;
+        clientSocket.shutdown();
+    } else{
+        if (monitor.killGameIfJoinable(game)){
+            dead = true;
+            clientSocket.shutdown();
+        }
+    }
 }

@@ -6,7 +6,7 @@
 #include <cstring>
 #include <iostream>
 
-Socket::Socket() : fd(-1){
+Socket::Socket(){
 }
 
 Socket::Socket(int fd) {
@@ -107,10 +107,11 @@ int Socket::connect(const char *host, const char *service) {
     return -1;
 }
 
-void Socket::shutdown() const {
+void Socket::shutdown() {
     if (fd > 0) {
         ::shutdown(fd, SHUT_RDWR);
         close(fd);
+        fd = -1;
     }
 }
 
@@ -158,7 +159,10 @@ Socket::Socket(Socket &&other) noexcept
 }
 
 Socket &Socket::operator=(Socket &&other) noexcept{
-    fd = other.fd;
+    if (this == &other){
+        return *this;
+    }
+    this->fd = other.fd;
     other.fd = -1;
     return *this;
 }

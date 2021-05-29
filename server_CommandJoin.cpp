@@ -13,5 +13,6 @@ const std::string& CommandJoin::operator()() {
     GameMonitor& game = monitor.accessGame(searchedGame);
     gameName = searchedGame;
     clientSymbol = 'X';
+    playing = true;
     return game.showBoard(clientSymbol);
 }

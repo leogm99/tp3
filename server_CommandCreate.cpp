@@ -11,5 +11,6 @@ const std::string& CommandCreate::operator()() {
     gameName.assign(msg.begin() + 3, msg.end());
     const std::string& board = monitor.createGame(gameName);
     clientSymbol = 'O';
+    playing = true;
     return board;
 }

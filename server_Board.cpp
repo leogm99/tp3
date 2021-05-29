@@ -100,6 +100,9 @@ Board::Board(Board &&other) noexcept
 }
 
 Board &Board::operator=(Board &&other) noexcept {
+    if (this == &other){
+        return *this;
+    }
     bv = std::move(other.bv);
     rawBoard = other.rawBoard;
     this->currentSymbol = other.currentSymbol;

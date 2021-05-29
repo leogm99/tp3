@@ -35,6 +35,9 @@ BoardFileHandler::BoardFileHandler(BoardFileHandler &&other) noexcept
 }
 
 BoardFileHandler &BoardFileHandler::operator=(BoardFileHandler &&other) noexcept {
+    if (this == &other){
+        return *this;
+    }
     plainBoard = std::move(other.plainBoard);
     boardMapping = std::move(other.boardMapping);
     return *this;
