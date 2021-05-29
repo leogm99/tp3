@@ -9,9 +9,9 @@ private:
     CliProtocol clientProtocol;
     Command clientCommand;
     const size_t boardSize = 128;
-    static const std::string msgWon;
-    static const std::string msgLost;
-    static const std::string msgTie;
+    const std::string msgWon;
+    const std::string msgLost;
+    const std::string msgTie;
 
 public:
     Client(const char* host, const char* service);

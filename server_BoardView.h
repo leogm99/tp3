@@ -14,7 +14,7 @@ private:
     std::string boardView;
     BoardFileHandler fh;
 public:
-    explicit BoardView();
+    BoardView();
 
     BoardView(const BoardView& other) = delete;
     BoardView& operator=(const BoardView& other) = delete;

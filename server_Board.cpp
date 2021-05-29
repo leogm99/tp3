@@ -1,6 +1,7 @@
 #include "server_Board.h"
 #include "server_BoardException.h"
 #include <string>
+#include <utility>
 #include <algorithm>
 
 Board::Board(BoardView bv)

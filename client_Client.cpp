@@ -1,14 +1,14 @@
 #include <iostream>
 #include <vector>
 #include <string>
+#include <utility>
 #include "client_Client.h"
 
-const std::string Client::msgWon = "Felicitaciones! Ganaste!\n";
-const std::string Client::msgLost = "Has perdido. Segui intentando!\n";
-const std::string Client::msgTie = "La partida ha terminado en empate\n";
-
 Client::Client(const char *host, const char *service)
-: clientProtocol(host, service){
+: clientProtocol(host, service),
+  msgWon("Felicitaciones! Ganaste!\n"),
+  msgLost("Has perdido. Segui intentando!\n"),
+  msgTie("La partida ha terminado en empate\n"){
 }
 
 int Client::start() {

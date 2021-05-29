@@ -1,6 +1,7 @@
 #include "client_Protocol.h"
 #include <vector>
 #include <iostream>
+#include <utility>
 
 CliProtocol::CliProtocol(const char* host, const char* service) :
 byteMap(std::move(createMap())) {
@@ -14,7 +15,7 @@ int CliProtocol::send(const std::vector<unsigned char>& message) {
     unsigned char commandBytes = byteMap.at(code);
     if (clientSocket.send(&code, 1) < 1){
         return -1;
-    };
+    }
     if (!commandBytes)
         return 0;
     uint16_t length = 1;
@@ -42,12 +43,12 @@ std::vector<unsigned char> CliProtocol::receive() {
     uint16_t messageLength = 0;
     if (clientSocket.receive(&messageLength, 2) < 2){
         return std::vector<unsigned char>(0);
-    };
+    }
     messageLength = htons(messageLength);
     std::vector<unsigned char> message(messageLength);
     if (clientSocket.receive(message.data(), messageLength) < messageLength){
         return message;
-    };
+    }
     return message;
 }
 

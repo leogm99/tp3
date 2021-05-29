@@ -4,6 +4,7 @@
 #include <string>
 #include <vector>
 #include <atomic>
+#include <memory>
 #include "server_ClientMonitor.h"
 
 // forward declaration

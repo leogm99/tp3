@@ -1,5 +1,7 @@
 #include <vector>
 #include <string>
+#include <memory>
+#include <utility>
 #include "server_ClientHandler.h"
 #include "server_ClientMonitor.h"
 #include "common_Socket.h"

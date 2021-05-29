@@ -1,4 +1,5 @@
 #include <string>
+#include <memory>
 #include "server_GameMonitor.h"
 
 GameMonitor::GameMonitor()

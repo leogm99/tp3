@@ -5,6 +5,7 @@
 #include "server_CommandList.h"
 #include <string>
 #include <vector>
+#include <memory>
 
 CommandHandler::CommandHandler(std::vector<unsigned char>& message,
                                unsigned char& clientSymbol,
