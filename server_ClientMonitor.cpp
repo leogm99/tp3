@@ -50,15 +50,6 @@ void ClientMonitor::joinGame(const std::string &gameName) {
     games[gameName].second = false; // nadie mas se puede unir;
 }
 
-void ClientMonitor::signalGameDone(const std::string &gameName) {
-    std::lock_guard<std::mutex> lockGuard(clientsMutex);
-    auto it = games.find(gameName);
-    if (it != games.end()){
-        games.erase(it);
-        return;
-    }
-}
-
 ClientMonitor::~ClientMonitor() {
 }
 
