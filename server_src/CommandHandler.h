@@ -25,6 +25,7 @@ protected:
     ClientMonitor& monitor;
     std::atomic_bool& clientIsDead;
     std::atomic_bool& playing;
+    bool shouldNotify;
 
 public:
     CommandHandler(std::vector<unsigned char>& message,
@@ -43,6 +44,8 @@ public:
                ClientMonitor &monitor,
                std::atomic_bool& clientDead,
                std::atomic_bool& playing);
+
+    bool notify();
 
     virtual ~CommandHandler();
 };

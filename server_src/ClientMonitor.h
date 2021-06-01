@@ -13,6 +13,8 @@ private:
     std::map<std::string, std::pair<GameMonitor, bool>> games;
     std::mutex clientsMutex;
     std::string namesList;
+    bool sendingNamesList;
+    std::condition_variable gamesListSend;
 public:
     ClientMonitor();
 
@@ -21,6 +23,7 @@ public:
     void joinGame(const std::string& gameName);
     GameMonitor& accessGame(const std::string& game);
 
+    void notifyWaiting();
     ~ClientMonitor();
 
     bool killGameIfJoinable(const std::string &basicString);

@@ -29,7 +29,13 @@ void ClientHandler::run() {
         try {
             const std::string& msgBack = cmd->operator()();
             if (servProtocol.send(clientSocket, msgBack) < 0){
+                if (cmd->notify()){
+                    monitor.notifyWaiting();
+                }
                 break;
+            }
+            if (cmd->notify()){
+                monitor.notifyWaiting();
             }
         } catch(const std::invalid_argument& e){
             servProtocol.send(clientSocket, e.what());

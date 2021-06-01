@@ -2,11 +2,15 @@
 #include <algorithm>
 #include "ClientMonitor.h"
 
-ClientMonitor::ClientMonitor(){
+ClientMonitor::ClientMonitor()
+:sendingNamesList(false){
 }
 
 const std::string& ClientMonitor::listGames() {
-    std::lock_guard<std::mutex> lockGuard(clientsMutex);
+    std::unique_lock<std::mutex> lock(clientsMutex);
+    while (sendingNamesList){
+        gamesListSend.wait(lock);
+    }
     namesList.clear();
     namesList = "Partidas:\n";
     auto it = games.begin();
@@ -14,6 +18,7 @@ const std::string& ClientMonitor::listGames() {
         namesList += " - " + (*it).first + "\n";
         ++it;
     }
+    sendingNamesList = true;
     return namesList;
 }
 
@@ -61,4 +66,10 @@ bool ClientMonitor::killGameIfJoinable(const std::string &gameName) {
         return true;
     }
     return false;
+}
+
+void ClientMonitor::notifyWaiting() {
+    std::lock_guard<std::mutex> lockGuard(clientsMutex);
+    sendingNamesList = false;
+    gamesListSend.notify_all();
 }

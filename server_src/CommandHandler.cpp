@@ -17,7 +17,8 @@ CommandHandler::CommandHandler(std::vector<unsigned char>& message,
 gameName(gameName),
 monitor(monitor),
 clientIsDead(clientDead),
-playing(playing){
+playing(playing),
+shouldNotify(false){
 }
 
 
@@ -47,6 +48,10 @@ CommandHandler::getCommand(std::vector<unsigned char>& message,
                              monitor, clientDead, playing));
     }
     throw std::exception();
+}
+
+bool CommandHandler::notify() {
+    return shouldNotify;
 }
 
 CommandHandler::~CommandHandler() {
