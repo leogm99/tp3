@@ -14,6 +14,10 @@ private:
     unsigned char currPlayer;
     Board gameBoard;
     bool handleGameDoneMessage(std::string& msgGameDone);
+
+    GameMonitor(GameMonitor&& other,
+                const std::lock_guard<std::mutex>& otherMutex) noexcept;
+
 public:
     GameMonitor();
 

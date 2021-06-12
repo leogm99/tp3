@@ -16,3 +16,16 @@ const std::string& CommandCreate::operator()() {
         throw std::invalid_argument("Game already exists\n");
     }
 }
+
+CommandCreate::CommandCreate(CommandCreate &&other) noexcept
+: CommandHandler(std::move(other)){
+}
+
+CommandCreate &CommandCreate::operator=(CommandCreate &&other) noexcept {
+    if (this == &other){
+        return *this;
+    }
+
+    CommandHandler::operator=(std::move(other));
+    return *this;
+}

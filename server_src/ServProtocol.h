@@ -1,6 +1,7 @@
 #ifndef TP3_SERVER_PROTOCOL_H
 #define TP3_SERVER_PROTOCOL_H
 
+#include "../common_src/Macros.h"
 #include <string>
 #include <vector>
 #include <map>
@@ -11,10 +12,10 @@ private:
     static std::map<unsigned char, unsigned int> createMap(){
         std::map<unsigned char,
                 unsigned int> mapping;
-        mapping[0x6e] = 2;
-        mapping[0x6c] = 0;
-        mapping[0x6a] = 2;
-        mapping[0x70] = 1;
+        mapping[CREAR] = 2;
+        mapping[LISTAR] = 0;
+        mapping[UNIRSE] = 2;
+        mapping[JUGAR] = 1;
         return mapping;
     }
 

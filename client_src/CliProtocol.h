@@ -6,6 +6,7 @@
 #define TP3_CLIENT_PROTOCOL_H
 
 
+#include "../common_src/Macros.h"
 #include <vector>
 #include <map>
 #include "../common_src/Socket.h"
@@ -15,10 +16,10 @@ private:
     static std::map<unsigned char, unsigned int> createMap(){
         std::map<unsigned char,
                 unsigned int> mapping;
-        mapping[0x6e] = 2;
-        mapping[0x6c] = 0;
-        mapping[0x6a] = 2;
-        mapping[0x70] = 1;
+        mapping[CREAR] = 2;
+        mapping[LISTAR] = 0;
+        mapping[UNIRSE] = 2;
+        mapping[JUGAR] = 1;
         return mapping;
     }
 
@@ -28,10 +29,17 @@ private:
     std::map<unsigned char, unsigned int> byteMap;
 
     Socket clientSocket;
+
 public:
     CliProtocol(const char* host, const char* service);
     int send(const std::vector<unsigned char>& message);
     std::vector<unsigned char> receive();
+
+    CliProtocol(const CliProtocol& other) = delete;
+    CliProtocol& operator=(const CliProtocol& other) = delete;
+
+    CliProtocol(CliProtocol&& other) noexcept;
+    CliProtocol& operator=(CliProtocol&& other) noexcept;
 
     ~CliProtocol();
 };

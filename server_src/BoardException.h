@@ -14,6 +14,12 @@ public:
     explicit BoardException(const char* fmt, ...) noexcept;
     virtual const char *what() const noexcept;
     virtual ~BoardException() noexcept;
+
+    BoardException(const BoardException& other) = delete;
+    BoardException& operator=(const BoardException& other) = delete;
+
+    BoardException(BoardException&& other) noexcept;
+    BoardException& operator=(BoardException&& other) noexcept;
 };
 
 

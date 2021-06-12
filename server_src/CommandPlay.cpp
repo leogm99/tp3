@@ -16,3 +16,20 @@ const std::string& CommandPlay::operator()() {
     }
     return gameBoardStatus;
 }
+
+CommandPlay::CommandPlay(CommandPlay &&other) noexcept
+: CommandHandler(std::move(other)),
+  gameBoardStatus(std::move(other.gameBoardStatus)),
+  msgGameDone(std::move(other.msgGameDone)){
+}
+
+CommandPlay &CommandPlay::operator=(CommandPlay &&other) noexcept {
+    if (this == &other){
+        return *this;
+    }
+    this->gameBoardStatus = std::move(other.gameBoardStatus);
+    this->msgGameDone = std::move(other.msgGameDone);
+
+    CommandHandler::operator=(std::move(other));
+    return *this;
+}

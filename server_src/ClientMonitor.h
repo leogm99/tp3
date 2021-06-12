@@ -15,8 +15,18 @@ private:
     std::string namesList;
     bool sendingNamesList;
     std::condition_variable gamesListSend;
+
+    ClientMonitor(ClientMonitor&& other,
+                  const std::lock_guard<std::mutex>& otherLock);
+
 public:
     ClientMonitor();
+
+    ClientMonitor(const ClientMonitor& other) = delete;
+    ClientMonitor& operator=(const ClientMonitor& other) = delete;
+
+    ClientMonitor(ClientMonitor&& other) noexcept;
+    ClientMonitor& operator=(ClientMonitor&& other) noexcept;
 
     const std::string& listGames();
     const std::string& createGame(const std::string& gameName);

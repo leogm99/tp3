@@ -8,7 +8,7 @@
 
 
 Command::Command()
-: validCommands(std::move(Command::createMap())){
+: validCommands(Command::createMap()){
 }
 
 void Command::serializeCommand() {
@@ -29,16 +29,16 @@ void Command::serializeCommand() {
 
 void Command::dispatch(uint8_t command, std::stringstream& ss) {
     switch (command) {
-        case crear:
+        case CREAR:
             create(ss);
             break;
-        case listar:
+        case LISTAR:
             list();
             break;
-        case unirse:
+        case UNIRSE:
             join(ss);
             break;
-        case jugar:
+        case JUGAR:
             play(ss);
             break;
         default:
@@ -47,7 +47,7 @@ void Command::dispatch(uint8_t command, std::stringstream& ss) {
 }
 
 void Command::create(std::stringstream& ss) {
-    actualCommand.emplace_back(crear);
+    actualCommand.emplace_back(CREAR);
     std::string game;
     ss >> game;
     uint16_t gameSize = game.size();
@@ -57,11 +57,11 @@ void Command::create(std::stringstream& ss) {
 }
 
 void Command::list() {
-    actualCommand.emplace_back(listar);
+    actualCommand.emplace_back(LISTAR);
 }
 
 void Command::join(std::stringstream& ss) {
-    actualCommand.emplace_back(unirse);
+    actualCommand.emplace_back(UNIRSE);
     std::string game;
     ss >> game;
     uint16_t gameSize = game.size();
@@ -71,7 +71,7 @@ void Command::join(std::stringstream& ss) {
 }
 
 void Command::play(std::stringstream& ss) {
-    actualCommand.emplace_back(jugar);
+    actualCommand.emplace_back(JUGAR);
     std::string row;
     std::string col;
     ss >> col;
@@ -90,11 +90,17 @@ Command::~Command() {
 }
 
 Command::Command(Command &&other) noexcept
-: actualCommand(std::move(other.actualCommand)){
+: validCommands(std::move(other.validCommands)),
+  actualCommand(std::move(other.actualCommand)){
 }
 
 Command &Command::operator=(Command &&other) noexcept {
+    if (this == &other){
+        return *this;
+    }
+    validCommands = std::move(other.validCommands);
     actualCommand = std::move(other.actualCommand);
+
     return *this;
 }
 

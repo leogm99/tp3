@@ -1,5 +1,6 @@
 .idea/
 CMakeLists.txt
+**/CMakeLists.txt/*
 cmake-build-debug/
 Makefile
 *.o
@@ -10,3 +11,4 @@ execute.sh
 cpplint.py
 server
 client
+build/

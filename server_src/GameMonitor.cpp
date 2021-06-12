@@ -51,9 +51,8 @@ GameMonitor::~GameMonitor() {
 }
 
 GameMonitor::GameMonitor(GameMonitor &&other) noexcept
-: gameBoard(std::move(other.gameBoard)){
-    this->currPlayer = other.currPlayer;
-    other.currPlayer = 'N';
+: GameMonitor(std::move(other),
+              std::lock_guard<std::mutex>(other.gameLock)){
 }
 
 GameMonitor &GameMonitor::operator=(GameMonitor &&other) noexcept {
@@ -84,4 +83,10 @@ bool GameMonitor::handleGameDoneMessage(std::string &msgGameDone) {
         return true;
     }
     return false;
+}
+
+GameMonitor::GameMonitor(GameMonitor &&other,
+                         const std::lock_guard<std::mutex> &otherMutex) noexcept
+: currPlayer(other.currPlayer),
+  gameBoard(std::move(other.gameBoard)){
 }

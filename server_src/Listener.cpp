@@ -63,3 +63,19 @@ Listener::~Listener() {
     clients.clear();
 }
 
+Listener::Listener(Listener &&other) noexcept
+: cliMonitor(other.cliMonitor),
+  listenerSock(std::move(other.listenerSock)),
+  clients(std::move(other.clients)){
+}
+
+Listener &Listener::operator=(Listener &&other) noexcept {
+    if (this == &other){
+        return *this;
+    }
+
+    this->listenerSock = std::move(other.listenerSock);
+    this->clients = std::move(other.clients);
+    return *this;
+}
+

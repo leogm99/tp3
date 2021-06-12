@@ -21,6 +21,12 @@ protected:
 public:
     explicit Listener(ClientMonitor& clientMonitor, const char* service);
 
+    Listener(const Listener& other) = delete;
+    Listener& operator=(const Listener& other) = delete;
+
+    Listener(Listener&& other) noexcept;
+    Listener& operator=(Listener&& other) noexcept;
+
     void shutdown();
 
     ~Listener() override;

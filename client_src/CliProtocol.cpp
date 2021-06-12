@@ -4,7 +4,7 @@
 #include <utility>
 
 CliProtocol::CliProtocol(const char* host, const char* service) :
-byteMap(std::move(createMap())) {
+byteMap(createMap()) {
     if (clientSocket.connect(host, service) < 0){
         throw std::invalid_argument("Connect failed, server is not up\n");
     }
@@ -53,5 +53,20 @@ std::vector<unsigned char> CliProtocol::receive() {
 }
 
 CliProtocol::~CliProtocol() {
+}
+
+CliProtocol::CliProtocol(CliProtocol &&other) noexcept
+: byteMap(std::move(other.byteMap)),
+  clientSocket(std::move(other.clientSocket)){
+}
+
+CliProtocol &CliProtocol::operator=(CliProtocol &&other) noexcept {
+    if (this == &other){
+        return *this;
+    }
+    this->byteMap = std::move(other.byteMap);
+    this->clientSocket = std::move(other.clientSocket);
+
+    return *this;
 }
 

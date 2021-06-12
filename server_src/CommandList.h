@@ -8,6 +8,12 @@ class CommandList : public CommandHandler {
 public:
     using CommandHandler::CommandHandler;
     const std::string& operator()() override;
+
+    CommandList(const CommandList& other) = delete;
+    CommandList& operator=(const CommandList& other) = delete;
+
+    CommandList(CommandList&& other) noexcept;
+    CommandList& operator=(CommandList&& other) noexcept;
 };
 
 

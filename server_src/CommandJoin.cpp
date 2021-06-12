@@ -13,3 +13,15 @@ const std::string& CommandJoin::operator()() {
     playing = true;
     return game.showBoard(clientSymbol);
 }
+
+CommandJoin::CommandJoin(CommandJoin &&other) noexcept
+: CommandHandler(std::move(other)){
+}
+
+CommandJoin &CommandJoin::operator=(CommandJoin &&other) noexcept {
+    if (this == &other){
+        return *this;
+    }
+    CommandHandler::operator=(std::move(other));
+    return *this;
+}

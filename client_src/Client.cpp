@@ -2,13 +2,14 @@
 #include <vector>
 #include <string>
 #include <utility>
+#include "../common_src/Macros.h"
 #include "Client.h"
 
 Client::Client(const char *host, const char *service)
 : clientProtocol(host, service),
-  msgWon("Felicitaciones! Ganaste!\n"),
-  msgLost("Has perdido. Segui intentando!\n"),
-  msgTie("La partida ha terminado en empate\n"){
+  msgWon(MSGWON),
+  msgLost(MSGLOST),
+  msgTie(MSGTIE){
 }
 
 int Client::start() {
@@ -21,7 +22,7 @@ int Client::start() {
         if (clientProtocol.send(clientCommand.getCommand()) < 0){
             break;
         }
-        std::vector<unsigned char> msg = std::move(clientProtocol.receive());
+        std::vector<unsigned char> msg = clientProtocol.receive();
         if (msg.empty()){
             break;
         }
@@ -48,5 +49,19 @@ bool Client::isGameDone(const std::string &messageReceived) {
         return true;
     }
     return false;
+}
+
+Client::Client(Client &&other) noexcept
+: clientProtocol(std::move(other.clientProtocol)),
+  clientCommand(std::move(other.clientCommand)){
+}
+
+Client &Client::operator=(Client &&other) noexcept {
+    if (this == &other){
+        return *this;
+    }
+    this->clientProtocol = std::move(other.clientProtocol);
+    this->clientCommand = std::move(other.clientCommand);
+    return *this;
 }
 

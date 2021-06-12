@@ -1,6 +1,7 @@
 #ifndef TP3_SERVER_COMMANDHANDLER_H
 #define TP3_SERVER_COMMANDHANDLER_H
 
+#include "../common_src/Macros.h"
 #include <string>
 #include <vector>
 #include <atomic>
@@ -12,12 +13,6 @@
 class ClientHandler;
 
 class CommandHandler {
-private:
-    static const uint8_t crear = 0x6e;
-    static const uint8_t listar = 0x6c;
-    static const uint8_t unirse = 0x6a;
-    static const uint8_t jugar = 0x70;
-
 protected:
     std::vector<unsigned char>& msg;
     unsigned char& clientSymbol;
@@ -34,6 +29,12 @@ public:
                    ClientMonitor& monitor,
                    std::atomic_bool& clientDead,
                    std::atomic_bool& playing);
+
+    explicit CommandHandler(const ClientMonitor& other) = delete;
+    CommandHandler& operator=(const ClientMonitor& other) = delete;
+
+    CommandHandler(CommandHandler&& other) noexcept;
+    CommandHandler& operator=(CommandHandler&& other) noexcept;
 
     virtual const std::string& operator()() = 0;
 

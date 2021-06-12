@@ -8,6 +8,13 @@ class CommandCreate : public CommandHandler {
 public:
     using CommandHandler::CommandHandler;
     const std::string& operator()() override;
+
+    CommandCreate(const CommandCreate& other) = delete;
+    CommandCreate& operator=(const CommandCreate& other) = delete;
+
+
+    CommandCreate(CommandCreate&& other) noexcept;
+    CommandCreate& operator=(CommandCreate&& other) noexcept;
 };
 
 

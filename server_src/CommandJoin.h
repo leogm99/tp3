@@ -8,6 +8,12 @@ class CommandJoin : public CommandHandler {
 public:
     using CommandHandler::CommandHandler;
     const std::string& operator()() override;
+
+    CommandJoin(const CommandJoin& other) = delete;
+    CommandJoin& operator=(const CommandJoin& other) = delete;
+
+    CommandJoin(CommandJoin&& other) noexcept;
+    CommandJoin& operator=(CommandJoin&& other) noexcept;
 };
 
 

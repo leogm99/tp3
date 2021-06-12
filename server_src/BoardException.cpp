@@ -21,3 +21,20 @@ const char *BoardException::what() const noexcept {
 
 BoardException::~BoardException() noexcept {
 }
+
+BoardException::BoardException(BoardException &&other) noexcept {
+    for (size_t i = 0; i < ERR_LEN; ++i){
+        error[i] = other.error[i];
+    }
+}
+
+BoardException &BoardException::operator=(BoardException &&other) noexcept {
+    if (this == &other){
+        return *this;
+    }
+
+    for (size_t i = 0; i < ERR_LEN; ++i){
+        error[i] = other.error[i];
+    }
+    return *this;
+}

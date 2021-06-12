@@ -13,6 +13,13 @@ private:
 public:
     using CommandHandler::CommandHandler;
     const std::string& operator()() override;
+
+    CommandPlay(const CommandPlay& other) = delete;
+    CommandPlay& operator=(const CommandPlay& other) = delete;
+
+    CommandPlay(CommandPlay&& other) noexcept;
+    CommandPlay& operator=(CommandPlay&& other) noexcept;
+
 };
 
 

@@ -1,18 +1,12 @@
+#include "../common_src/Macros.h"
 #include "BoardView.h"
 #include <string>
 #include <utility>
 #include <map>
 
 BoardView::BoardView()
-: boardView("    1 . 2 . 3 .\n"
-            "  +---+---+---+\n"
-            "1 |   |   |   |\n"
-            "  +---+---+---+\n"
-            "2 |   |   |   |\n"
-            "  +---+---+---+\n"
-            "3 |   |   |   |\n"
-            "  +---+---+---+\n"),
-  boardMapping(std::move(createMap())){
+: boardView(BOARD),
+  boardMapping(createMap()){
 }
 
 const std::string& BoardView::print() {

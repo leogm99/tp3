@@ -19,6 +19,9 @@ public:
     Client(const Client& other) = delete;
     Client& operator=(const Client& other) = delete;
 
+    Client(Client&& other) noexcept;
+    Client& operator=(Client&& other) noexcept;
+
     int start();
 
     bool isGameDone(const std::string& messageReceived);

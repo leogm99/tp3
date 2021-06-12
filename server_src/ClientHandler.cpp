@@ -19,7 +19,7 @@ ClientHandler::ClientHandler(ClientMonitor& aMonitor,
 void ClientHandler::run() {
     std::vector <unsigned char> msg;
     while (!dead){
-        msg = std::move(servProtocol.receive(clientSocket));
+        msg = servProtocol.receive(clientSocket);
         if (msg.empty()){
             break;
         }

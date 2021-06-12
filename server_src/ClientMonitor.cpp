@@ -73,3 +73,26 @@ void ClientMonitor::notifyWaiting() {
     sendingNamesList = false;
     gamesListSend.notify_all();
 }
+
+ClientMonitor::ClientMonitor(ClientMonitor &&other) noexcept
+: ClientMonitor(std::move(other),
+                std::lock_guard<std::mutex>(other.clientsMutex)){
+}
+
+ClientMonitor &ClientMonitor::operator=(ClientMonitor &&other) noexcept {
+    if (this == &other){
+        return *this;
+    }
+
+    this->games = std::move(other.games);
+    this->namesList = std::move(other.namesList);
+    this->sendingNamesList = other.sendingNamesList;
+    return *this;
+}
+
+ClientMonitor::ClientMonitor(ClientMonitor &&other,
+                             const std::lock_guard<std::mutex> &otherLock)
+: games(std::move(other.games)),
+  namesList(std::move(other.namesList)),
+  sendingNamesList(other.sendingNamesList){
+}
