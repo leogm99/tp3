@@ -1,4 +1,5 @@
 #include "CommandList.h"
+#include <utility>
 #include <string>
 
 const std::string& CommandList::operator()() {
