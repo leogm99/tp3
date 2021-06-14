@@ -1,6 +1,7 @@
 #include <string>
 #include <algorithm>
 #include "ClientMonitor.h"
+#include "ClientMonitorException.h"
 
 ClientMonitor::ClientMonitor()
 :sendingNamesList(false){
@@ -27,7 +28,7 @@ GameMonitor &ClientMonitor::accessGame(const std::string &game) {
     try {
         return games.at(game).first;
     } catch(const std::exception& e){
-        throw std::invalid_argument("Invalid Game\n");
+        throw ClientMonitorException(GAME_INVAL);
     }
 }
 
@@ -40,17 +41,17 @@ const std::string& ClientMonitor::createGame(const std::string& gameName) {
                 std::make_pair(GameMonitor(), true)));
         return games.at(gameName).first.showBoard('O');
     }
-    throw std::invalid_argument("Game already exists\n");
+    throw ClientMonitorException(GAME_EXISTS);
 }
 
 void ClientMonitor::joinGame(const std::string &gameName) {
     std::lock_guard<std::mutex> lockGuard(clientsMutex);
     auto it = games.find(gameName);
     if (it == games.end()){
-        throw std::invalid_argument("Game does not exist\n");
+        throw ClientMonitorException(GAME_NOT_EXIST);
     }
     if (!it->second.second){
-        throw std::invalid_argument("Game is already full, vuelva prontos\n");
+        throw ClientMonitorException(GAME_FULL);
     }
     games[gameName].second = false; // nadie mas se puede unir;
 }

@@ -37,8 +37,6 @@ void ClientHandler::run() {
             if (cmd->notify()){
                 monitor.notifyWaiting();
             }
-        } catch(const std::invalid_argument& e){
-            servProtocol.send(clientSocket, e.what());
         } catch(const std::exception& e){
             servProtocol.send(clientSocket, e.what());
         }

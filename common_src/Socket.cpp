@@ -1,10 +1,8 @@
-//
-// Created by leogm99 on 19/5/21.
-//
-
 #include "Socket.h"
 #include <cstring>
 #include <iostream>
+#include "SocketException.h"
+#include "Macros.h"
 
 Socket::Socket()
 : fd(-1){
@@ -25,8 +23,7 @@ struct addrinfo *Socket::getAddrInfo(const char *host,
     struct addrinfo *results;
     int addrinfo = getaddrinfo(host, service, &hints, &results);
     if (addrinfo != 0){
-        // alguna excepcion? no devuelvo nullptr
-        return nullptr;
+        throw SocketException(ADDR_INFO);
     }
     return results;
 }
@@ -34,10 +31,6 @@ struct addrinfo *Socket::getAddrInfo(const char *host,
 int Socket::bindAndListen(const char *service) {
     struct addrinfo * results;
     results = getAddrInfo(nullptr, service, AI_PASSIVE); // server
-
-    if (!results){
-        return -1;
-    }
 
     struct addrinfo * aux = results;
     int bind_error = 0;
@@ -48,7 +41,7 @@ int Socket::bindAndListen(const char *service) {
         // si el fd es invalido, rip
         if (fd == -1){
             freeaddrinfo(results);
-            return -1;
+            throw SocketException(BIND_ERR, service);
         }
         if ((bind_error = bind(fd, aux->ai_addr, aux->ai_addrlen)) == 0){
             break;
@@ -60,11 +53,11 @@ int Socket::bindAndListen(const char *service) {
 
     freeaddrinfo(results);
     if (bind_error || (fd < 0)){
-        return -1;
+        throw SocketException(BIND_ERR, service);
     }
 
     if (listen(fd, 10) == -1){
-        return -1;
+        throw SocketException(BIND_ERR, service);
     }
 
     return 0;
@@ -73,7 +66,7 @@ int Socket::bindAndListen(const char *service) {
 Socket Socket::accept() {
     int peerFd = ::accept(fd, nullptr, nullptr);
     if (errno == EINVAL){
-        throw std::invalid_argument("Listener closed");
+        throw SocketException(LISTENER_CLOSED);
     }
     return Socket(peerFd);
 }
@@ -81,9 +74,6 @@ Socket Socket::accept() {
 int Socket::connect(const char *host, const char *service) {
     struct addrinfo* results;
     results = getAddrInfo(nullptr, service, 0);
-    if (!results){
-        return -1;
-    }
 
     struct addrinfo *aux = results;
     for (; aux; aux = aux->ai_next){
@@ -93,7 +83,7 @@ int Socket::connect(const char *host, const char *service) {
                           aux->ai_protocol);
         if (fd == -1){
             freeaddrinfo(results);
-            return -1;
+            throw SocketException(CONNECT_ERR, service);
         }
 
         connect_error = ::connect(fd, aux->ai_addr, aux->ai_addrlen);
@@ -107,7 +97,7 @@ int Socket::connect(const char *host, const char *service) {
     }
 
     freeaddrinfo(results);
-    return -1;
+    throw SocketException(CONNECT_ERR, service);
 }
 
 void Socket::shutdown() {

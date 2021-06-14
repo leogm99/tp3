@@ -3,6 +3,8 @@
 #include "CommandCreate.h"
 #include "CommandJoin.h"
 #include "CommandList.h"
+#include "CommandException.h"
+#include "../common_src/Macros.h"
 #include <string>
 #include <vector>
 #include <memory>
@@ -46,8 +48,9 @@ CommandHandler::getCommand(std::vector<unsigned char>& message,
             return std::unique_ptr<CommandHandler>
             (new CommandJoin(message, clientSymbol, gameName,
                              monitor, clientDead, playing));
+        default:
+            throw CommandException(INVAL_COMMAND);
     }
-    throw std::exception();
 }
 
 bool CommandHandler::notify() {

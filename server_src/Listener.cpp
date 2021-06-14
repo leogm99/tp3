@@ -4,9 +4,7 @@
 
 Listener::Listener(ClientMonitor& clientMonitor, const char* service)
 : cliMonitor(clientMonitor) {
-    if (listenerSock.bindAndListen(service) < 0){
-        throw std::invalid_argument("Could not bind/listen on port");
-    }
+    listenerSock.bindAndListen(service);
 }
 
 void Listener::run() {
@@ -15,7 +13,7 @@ void Listener::run() {
         Socket clientSocket;
         try {
             clientSocket = std::move(listenerSock.accept());
-        } catch(const std::invalid_argument& e){
+        } catch(const std::exception& e){
             break;
         }
         auto* newCli = new ClientHandler(cliMonitor,

@@ -2,6 +2,7 @@
 #define TP3_SERVER_CLIENTMONITOR_H
 
 #include "GameMonitor.h"
+#include "ClientMonitorException.h"
 #include <string>
 #include <mutex>
 #include <utility>

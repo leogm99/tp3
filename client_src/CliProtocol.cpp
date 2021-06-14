@@ -5,9 +5,7 @@
 
 CliProtocol::CliProtocol(const char* host, const char* service) :
 byteMap(createMap()) {
-    if (clientSocket.connect(host, service) < 0){
-        throw std::invalid_argument("Connect failed, server is not up\n");
-    }
+    clientSocket.connect(host, service);
 }
 
 int CliProtocol::send(const std::vector<unsigned char>& message) {

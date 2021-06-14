@@ -6,13 +6,18 @@ int main(int argc, const char* argv[]){
         return -1;
     }
     std::string in;
-    ClientMonitor clientMonitor;
-    Listener l(clientMonitor, argv[1]);
-    l.start();
-    while (in != "q"){
-        std::cin >> in;
+    try {
+        ClientMonitor clientMonitor;
+        Listener l(clientMonitor, argv[1]);
+        l.start();
+        while (in != "q"){
+            std::cin >> in;
+        }
+        l.shutdown();
+        l.join();
+    } catch(const std::exception& e){
+        std::cout << e.what();
+        return -1;
     }
-    l.shutdown();
-    l.join();
     return 0;
 }

@@ -1,9 +1,10 @@
 #include <string>
 #include "CommandCreate.h"
+#include "CommandException.h"
 
 const std::string& CommandCreate::operator()() {
     if (!gameName.empty()){
-        throw std::invalid_argument("You are already queued for a game\n");
+        throw CommandException(HAS_GAME, gameName.c_str());
     }
     gameName.assign(msg.begin() + 3, msg.end());
     try {
@@ -13,7 +14,9 @@ const std::string& CommandCreate::operator()() {
         return board;
     } catch(const std::exception& e){
         gameName.clear();
-        throw std::invalid_argument("Game already exists\n");
+        clientSymbol = 'N';
+        playing = false;
+        throw;
     }
 }
 

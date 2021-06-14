@@ -35,7 +35,9 @@ const std::string& GameMonitor::play(unsigned char clientSymbol,
     return gameBoard.print();
 }
 
-void GameMonitor::waitIfNotTurnAndGameNotDone(unsigned char clientSymbol, std::unique_lock<std::mutex> &lock) {
+void GameMonitor::
+waitIfNotTurnAndGameNotDone(unsigned char clientSymbol,
+                            std::unique_lock<std::mutex> &lock) {
     while ((clientSymbol != currPlayer) && gameBoard.getWinner() == 'N'){
         turn.wait(lock);
     }
@@ -86,7 +88,7 @@ GameMonitor::GameMonitor(GameMonitor &&other,
 }
 
 bool GameMonitor::gameIsDone(std::string &gameDoneMsg) {
-    if(handleGameDoneMessage(gameDoneMsg)){
+    if (handleGameDoneMessage(gameDoneMsg)){
         turn.notify_all();
         return true;
     }

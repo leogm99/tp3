@@ -33,8 +33,7 @@ unsigned int Board::index(unsigned int col, unsigned int row) const {
 
 void Board::placeAt(unsigned int col, unsigned int row) {
     if (!isValidMove(col, row)){
-        throw BoardException("Move at column %d "
-                             "and row %d is not valid\n", col, row);
+        throw BoardException(MOVE_INVAL, col, row);
     }
     rawBoard.at(index(col, row)) = currentSymbol;
     bv.updateAt(col, row, currentSymbol);

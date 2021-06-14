@@ -1,9 +1,10 @@
 #include <string>
 #include "CommandJoin.h"
+#include "CommandException.h"
 
 const std::string& CommandJoin::operator()() {
     if (!gameName.empty()){
-        throw std::invalid_argument("You are already queued for a game\n");
+        throw CommandException(HAS_GAME, gameName.c_str());
     }
     std::string searchedGame(msg.begin() + 3, msg.end());
     monitor.joinGame(searchedGame);
