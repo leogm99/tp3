@@ -1,4 +1,5 @@
 #include "Command.h"
+#include "../common_src/CommandException.h"
 #include <iostream>
 #include <sstream>
 #include <string>
@@ -23,7 +24,7 @@ void Command::serializeCommand() {
        uint8_t command = validCommands.at(stringCommand);
        dispatch(command, ss);
    } catch(const std::exception& e){
-       throw std::invalid_argument("Invalid Command Code\n");
+       throw CommandException(INVAL_COMMAND);
    }
 }
 

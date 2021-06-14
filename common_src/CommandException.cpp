@@ -24,7 +24,8 @@ CommandException::CommandException(CommandException &&other) noexcept {
     }
 }
 
-CommandException &CommandException::operator=(CommandException &&other) noexcept {
+CommandException &CommandException::
+operator=(CommandException &&other) noexcept {
     if (this == &other){
         return *this;
     }

@@ -3,7 +3,7 @@
 #include "CommandCreate.h"
 #include "CommandJoin.h"
 #include "CommandList.h"
-#include "CommandException.h"
+#include "../common_src/CommandException.h"
 #include "../common_src/Macros.h"
 #include <string>
 #include <vector>

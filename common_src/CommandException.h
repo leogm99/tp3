@@ -3,7 +3,7 @@
 
 
 #include <exception>
-#include "../common_src/Macros.h"
+#include "Macros.h"
 
 class CommandException : public std::exception{
 private:

@@ -1,6 +1,6 @@
 #include <string>
 #include "CommandJoin.h"
-#include "CommandException.h"
+#include "../common_src/CommandException.h"
 
 const std::string& CommandJoin::operator()() {
     if (!gameName.empty()){

@@ -17,6 +17,7 @@ int Client::start() {
         try {
             clientCommand.serializeCommand();
         } catch(const std::exception& e){
+            std::cout << e.what();
             continue;
         }
         if (clientProtocol.send(clientCommand.getCommand()) < 0){

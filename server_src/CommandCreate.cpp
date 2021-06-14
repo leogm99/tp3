@@ -1,6 +1,6 @@
 #include <string>
 #include "CommandCreate.h"
-#include "CommandException.h"
+#include "../common_src/CommandException.h"
 
 const std::string& CommandCreate::operator()() {
     if (!gameName.empty()){
