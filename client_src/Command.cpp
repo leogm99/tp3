@@ -48,12 +48,7 @@ void Command::dispatch(uint8_t command, std::stringstream& ss) {
 
 void Command::create(std::stringstream& ss) {
     actualCommand.emplace_back(CREAR);
-    std::string game;
-    ss >> game;
-    uint16_t gameSize = game.size();
-    actualCommand.emplace_back((gameSize >> 8) & 0xff);
-    actualCommand.emplace_back((gameSize >> 0) & 0xff);
-    std::copy(game.begin(), game.end(), std::back_inserter(actualCommand));
+    serializeGameName(ss);
 }
 
 void Command::list() {
@@ -62,12 +57,7 @@ void Command::list() {
 
 void Command::join(std::stringstream& ss) {
     actualCommand.emplace_back(UNIRSE);
-    std::string game;
-    ss >> game;
-    uint16_t gameSize = game.size();
-    actualCommand.emplace_back((gameSize >> 8) & 0xff);
-    actualCommand.emplace_back((gameSize >> 0) & 0xff);
-    std::copy(game.begin(), game.end(), std::back_inserter(actualCommand));
+    serializeGameName(ss);
 }
 
 void Command::play(std::stringstream& ss) {
@@ -106,4 +96,13 @@ Command &Command::operator=(Command &&other) noexcept {
 
 std::vector<uint8_t> Command::getCommand() {
     return this->actualCommand;
+}
+
+void Command::serializeGameName(std::stringstream &ss) {
+    std::string game;
+    ss >> game;
+    uint16_t gameSize = game.size();
+    actualCommand.emplace_back((gameSize >> 8) & 0xff);
+    actualCommand.emplace_back((gameSize >> 0) & 0xff);
+    std::copy(game.begin(), game.end(), std::back_inserter(actualCommand));
 }

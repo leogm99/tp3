@@ -19,7 +19,6 @@ public:
 
     CommandPlay(CommandPlay&& other) noexcept;
     CommandPlay& operator=(CommandPlay&& other) noexcept;
-
 };
 
 

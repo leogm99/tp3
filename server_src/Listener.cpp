@@ -24,35 +24,10 @@ void Listener::run() {
         newCli->start();
         clients.push_back(newCli);
 
-        auto it = clients.begin();
-        while (it != clients.end()){
-            if ((*it)->isDead()){
-                (*it)->join();
-                delete *it;
-                it = clients.erase(it);
-            } else {
-                ++it;
-            }
-        }
+        cleanDeadClients();
     }
-
-    auto it = clients.begin();
-    while (it != clients.end()){
-        (*it)->killIfIdle();
-        if ((*it)->isDead()){
-            (*it)->join();
-            delete *it;
-            it = clients.erase(it);
-        } else {
-            ++it;
-        }
-    }
-
-    // espero a que el resto termine
-    for (auto& cli : clients){
-        cli->join();
-        delete cli;
-    }
+    cleanIdleClients();
+    waitAndClean();
 }
 
 void Listener::shutdown() {
@@ -77,5 +52,39 @@ Listener &Listener::operator=(Listener &&other) noexcept {
     this->listenerSock = std::move(other.listenerSock);
     this->clients = std::move(other.clients);
     return *this;
+}
+
+void Listener::cleanDeadClients() {
+    auto it = clients.begin();
+    while (it != clients.end()){
+        if ((*it)->isDead()){
+            (*it)->join();
+            delete *it;
+            it = clients.erase(it);
+        } else {
+            ++it;
+        }
+    }
+}
+
+void Listener::cleanIdleClients() {
+    auto it = clients.begin();
+    while (it != clients.end()) {
+        (*it)->killIfIdle();
+        if ((*it)->isDead()) {
+            (*it)->join();
+            delete *it;
+            it = clients.erase(it);
+        } else {
+            ++it;
+        }
+    }
+}
+
+void Listener::waitAndClean() {
+    for (auto& cli : clients){
+        cli->join();
+        delete cli;
+    }
 }
 

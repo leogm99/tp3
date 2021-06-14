@@ -16,6 +16,10 @@ private:
     ClientMonitor& cliMonitor;
     Socket listenerSock;
     std::vector<ClientHandler*> clients;
+    void cleanDeadClients();
+    void cleanIdleClients();
+    void waitAndClean();
+
 protected:
     void run() override;
 public:

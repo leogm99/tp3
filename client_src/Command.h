@@ -27,6 +27,7 @@ private:
     void list();
     void join(std::stringstream& ss);
     void play(std::stringstream& ss);
+    void serializeGameName(std::stringstream& ss);
 
 public:
     Command();
@@ -35,6 +36,7 @@ public:
 
     Command(Command&& other) noexcept;
     Command& operator=(Command&& other) noexcept;
+
 
     void serializeCommand();
     std::vector<uint8_t> getCommand();

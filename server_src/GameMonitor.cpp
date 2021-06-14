@@ -1,5 +1,6 @@
 #include <string>
 #include <utility>
+#include "../common_src/Macros.h"
 #include "GameMonitor.h"
 
 GameMonitor::GameMonitor()
@@ -13,38 +14,31 @@ const std::string& GameMonitor::play(unsigned char clientSymbol,
                                      unsigned int row,
                                      std::string& gameDoneMsg) {
     std::unique_lock<std::mutex> lock(gameLock);
-    // mientras que no sea el current player, espero
+
+    waitIfNotTurnAndGameNotDone(clientSymbol, lock);
+
+    if (gameIsDone(gameDoneMsg)){
+        return gameBoard.print();
+    }
+
+    gameBoard.placeAt(col, row);
+
+    if (gameIsDone(gameDoneMsg)){
+        updateCurrentPlayer();
+        return gameBoard.print();
+    } else {
+        updateCurrentPlayer();
+        waitIfNotTurnAndGameNotDone(clientSymbol, lock);
+    }
+
+    handleGameDoneMessage(gameDoneMsg);
+    return gameBoard.print();
+}
+
+void GameMonitor::waitIfNotTurnAndGameNotDone(unsigned char clientSymbol, std::unique_lock<std::mutex> &lock) {
     while ((clientSymbol != currPlayer) && gameBoard.getWinner() == 'N'){
         turn.wait(lock);
     }
-
-    if (handleGameDoneMessage(gameDoneMsg)){
-        turn.notify_all();
-        return gameBoard.print();
-    }
-    gameBoard.placeAt(col, row);
-
-    if (handleGameDoneMessage(gameDoneMsg)){
-        currPlayer = gameBoard.getCurrentPlayer();
-        turn.notify_all();
-        return gameBoard.print();
-    } else {
-        currPlayer = gameBoard.getCurrentPlayer();
-        turn.notify_all();
-        while ((clientSymbol != currPlayer) && gameBoard.getWinner() == 'N'){
-            turn.wait(lock);
-        }
-    }
-    // el tablero actualiza al proximo jugador
-    // por ende lo actualizo aqui
-    // espero nuevamente a que el otro jugador haga una movida
-    // asi puedo devolver el tablero
-    if (handleGameDoneMessage(gameDoneMsg)){
-        return gameBoard.print();
-    }
-    // no se despertaria hasta que el actual salga de scope
-    // pero cuando el del viejo turno salga, ya se puede jugar
-    return gameBoard.print();
 }
 
 GameMonitor::~GameMonitor() {
@@ -74,11 +68,11 @@ bool GameMonitor::handleGameDoneMessage(std::string &msgGameDone) {
     unsigned char gameDone;
     if ((gameDone = gameBoard.getWinner()) != 'N') {
         if (gameDone == currPlayer) {
-            msgGameDone += "Felicitaciones! Ganaste!\n";
+            msgGameDone += MSGWON;
         } else if (gameDone != 'E'){
-            msgGameDone += "Has perdido. Segui intentando!\n";
+            msgGameDone += MSGLOST;
         } else {
-            msgGameDone += "La partida ha terminado en empate\n";
+            msgGameDone += MSGTIE;
         }
         return true;
     }
@@ -89,4 +83,17 @@ GameMonitor::GameMonitor(GameMonitor &&other,
                          const std::lock_guard<std::mutex> &otherMutex) noexcept
 : currPlayer(other.currPlayer),
   gameBoard(std::move(other.gameBoard)){
+}
+
+bool GameMonitor::gameIsDone(std::string &gameDoneMsg) {
+    if(handleGameDoneMessage(gameDoneMsg)){
+        turn.notify_all();
+        return true;
+    }
+    return false;
+}
+
+void GameMonitor::updateCurrentPlayer() {
+    currPlayer = gameBoard.getCurrentPlayer();
+    turn.notify_all();
 }

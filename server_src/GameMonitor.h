@@ -34,6 +34,10 @@ public:
     const std::string& showBoard(unsigned char clientSymbol);
 
     ~GameMonitor();
+
+    void waitIfNotTurnAndGameNotDone(unsigned char clientSymbol, std::unique_lock<std::mutex> &lock);
+    bool gameIsDone(std::string& gameDoneMsg);
+    void updateCurrentPlayer();
 };
 
 

@@ -72,6 +72,7 @@ CommandHandler &CommandHandler::operator=(CommandHandler &&other) noexcept {
         return *this;
     }
 
+    this->clientSymbol = other.clientSymbol;
     this->shouldNotify = other.shouldNotify;
     return *this;
 }
