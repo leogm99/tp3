@@ -81,6 +81,7 @@ ClientMonitor::ClientMonitor(ClientMonitor &&other) noexcept
 }
 
 ClientMonitor &ClientMonitor::operator=(ClientMonitor &&other) noexcept {
+    std::lock_guard<std::mutex> lock(other.clientsMutex);
     if (this == &other){
         return *this;
     }

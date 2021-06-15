@@ -52,6 +52,7 @@ GameMonitor::GameMonitor(GameMonitor &&other) noexcept
 }
 
 GameMonitor &GameMonitor::operator=(GameMonitor &&other) noexcept {
+    std::lock_guard<std::mutex> lock(other.gameLock);
     this->gameBoard = std::move(other.gameBoard);
     this->currPlayer = other.currPlayer;
     other.currPlayer = 'N';
